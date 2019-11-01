@@ -11,7 +11,22 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+var submitBtn = $(".submitBtn");
+var userID = $(".userID");
+var form = $(".enterUsername")
+var user = false;
 
-var username = "";
-
+submitBtn.on("click", function (event) {
+    if (userID.val() !== "") {
+        event.preventDefault();
+        var username = userID.val().trim();
+        database.ref().push({
+            userID: username
+        })
+        form.text("Username: " + username);
+        user = true;
+    } else {
+        event.preventDefault();
+    }
+});
 

@@ -5,3 +5,7 @@ h2,
   padding: 40px;
   font-family: Georgia, "Times New Roman", Times, serif;
 }
+
+.createBtn{
+    margin-top: 10px;
+}

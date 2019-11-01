@@ -19,6 +19,10 @@
             <div class="col-sm-12">
                 <h1><i class="far fa-keyboard"></i> Trivia</h1>
                 <h2>Make, Play, Share, and Compete.</h2>
+                <form class="enterUsername">Enter Username to Begin: <input class="userID" type="text"><input
+                        class="submitBtn" type="submit">
+                </form>
+                <button type="button" class="btn btn-warning createBtn" id="share">Click to Create Quiz!</button>
             </div>
         </div>
     </div>
@@ -28,7 +32,6 @@
                 <button type="button" class="btn btn-warning" id="share">
                     Share
                 </button>
-
                 <button type="button" class="btn btn-warning" id="share">
                     <i class="fas fa-trash-alt"></i> Trash
                 </button>
@@ -55,6 +58,7 @@
     <!-- FIREBASE -->
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
     <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/4d58f93612.js" crossorigin="anonymous"></script>
     <!-- APP.JS-->
