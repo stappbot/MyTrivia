@@ -1,14 +1,72 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Make, Play, Share, Compete</title>
+    <!-- BOOTSTRAP -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <!-- JQUERY -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-database.js"></script>
+    <!-- FONT AWESOME -->
+    <script
+      src="https://kit.fontawesome.com/4d58f93612.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+  <body>
+    <div class="container alert alert-info text-center" id="welcome-display">
+      <div class="row">
+        <div class="col-sm-12">
+          <h1><i class="far fa-keyboard"></i> Trivia</h1>
+          <h2>Make, Play, Share, and Compete.</h2>
+        </div>
+      </div>
+    </div>
+    <div class="container alert alert-info text-center">
+      <div class="row">
+        <div class="col-sm-12 col-md-6" id="button-display">
+          <button type="button" class="btn btn-warning" id="share">
+            Share
+          </button>
 
-<body>
-    Hello
-</body>
-
+          <button type="button" class="btn btn-warning" id="share">
+            <i class="fas fa-trash-alt"></i> Trash
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="container alert alert-info text-center">
+      <div class="row">
+        <div class="col-sm-12 col-md-6" id="options">
+          <p>
+            Click
+            <span
+              ><button type="button" class="btn btn-warning" id="join">
+                Join
+              </button></span
+            >
+            to play previously created trivia <br />
+            games and challenge the contenders.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
