@@ -17,16 +17,23 @@ var form = $(".enterUsername")
 var user = false;
 
 submitBtn.on("click", function (event) {
+    event.preventDefault();
+    //var test = database.ref().equalTo(userID).on('child_added', function (snapshot) {
+    //    console.log(snapshot.size)
+    //});
+    var usernames = database.ref("usernames")
     if (userID.val() !== "") {
-        event.preventDefault();
         var username = userID.val().trim();
-        database.ref().push({
+        usernames.push({
             userID: username
         })
         form.text("Username: " + username);
+        form.append("<button class='btn btn-dark signOut'>Sign Out</button>");
         user = true;
-    } else {
-        event.preventDefault();
+
     }
+    console.log()
 });
+
+
 
