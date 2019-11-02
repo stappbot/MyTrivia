@@ -33,7 +33,7 @@
   <body>
     <div
       class="container alert alert-info text-center m-4 py-5"
-      id="welcome-display"
+      id="main"
     >
       <div class="row">
         <div class="col-sm-12">
@@ -45,16 +45,59 @@
     <div class="container alert alert-info text-center m-4 py-4">
       <div class="row">
         <div class="col-sm-12 col-md-6" id="button-display">
+          <button type="button" class="btn btn-warning" id="start">
+            Start
+          </button>
           <button type="button" class="btn btn-warning" id="share">
             Share
           </button>
 
-          <button type="button" class="btn btn-warning" id="share">
-            <i class="fas fa-trash-alt"></i> Trash
+          <button type="button" class="btn btn-warning" id="reset">
+            <i class="fas fa-trash-alt"></i> Reset
           </button>
         </div>
       </div>
     </div>
+
+<!-- container for categories -->
+<div class="container alert alert-info text-center m-4 py-4" id="categoriesDiv">
+      <div class="row">
+        <div class="col-sm-12 col-md-6" id="button-display">
+          <button type="button" class="btn btn-warning categoryButton" id="animal" data-value=>
+            Animal
+          </button>
+          <button type="button" class="btn btn-warning categoryButton" id="name">
+            name
+          </button>
+
+          <button type="button" class="btn btn-warning categoryButton" id="name">
+            <i class="fas fa-trash-alt"></i> name
+          </button>
+        </div>
+      </div>
+    </div>
+
+<!-- container for difficulty -->
+<div class="container alert alert-info text-center m-4 py-4" id="difficultyDiv">
+      <div class="row">
+        <div class="col-sm-12 col-md-6" id="button-display">
+          <button type="button" class="btn btn-warning difficultyButton" id="easy">
+            Easy
+          </button>
+          <button type="button" class="btn btn-warning difficultyButton" id="medium">
+            Medium
+          </button>
+
+          <button type="button" class="btn btn-warning difficultyButton" id="hard">
+            <i class="fas fa-trash-alt"></i> Hard
+          </button>
+          <button type="button" class="btn btn-warning difficultyButton" id="any">
+            <i class="fas fa-trash-alt"></i> Any
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div class="container alert alert-info text-center m-4 py-4">
       <div class="row px-4">
         <div class="col-sm-12 col-md-6" id="options">
