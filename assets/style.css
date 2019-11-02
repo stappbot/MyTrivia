@@ -2,7 +2,6 @@
 h1,
 h2,
 .button {
-  padding: 40px;
   font-family: Georgia, "Times New Roman", Times, serif;
 }
 
@@ -13,3 +12,4 @@ h2,
 .signOut{
     margin-left: 10px;
 }
+
