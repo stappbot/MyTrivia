@@ -118,9 +118,15 @@ $("#numSubmit").on("click", function () {
 //Pre-game: User chooses difficulty for trivia questions-- easy/med/hard (or any)
 // modifies queryParam accordingly
 $(".difficultyButton").on("click", function () {
-    var difficulty = $(this).attr("data-difficulty");
-    queryParam += "&difficulty=" + difficulty;
-    $("#difficultyDiv").remove();
+    if($(this).attr(data-difficulty) === "any"){
+        return;
+    }
+    else{
+        var difficulty = $(this).attr("data-difficulty");
+        queryParam += "&difficulty=" + difficulty;
+        $("#difficultyDiv").remove();
+
+    }
 });
 
 //AJAX call to openTDB API, using queryParam to find the specific trivia quiz(object array)
