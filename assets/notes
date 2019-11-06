@@ -1,0 +1,47 @@
+        database.ref("users").once('value', function (snapshot) {
+            var returnArray = [];
+            snapshot.forEach(function (childSnapshot) {
+                var item = childSnapshot.val();
+                item.key = childSnapshot.key;
+                returnArray.push(item)
+            });
+            console.log(returnArray)
+        })
+        var users = database.ref("users")
+
+        var username = userID.val().trim();
+        var pass = password.val().trim();
+        users.push({
+            user: username,
+            password: pass
+        })
+        form.text("Username: " + username);
+        form.append("<button class='btn btn-dark signOut'>Sign Out</button>");
+        user = true;
+
+
+
+<form class="enterUsername">Enter Username: <input class="userID" type="text">
+    <form class="enterUsername">Enter Password: <input class="password" type="text">
+        <input class="submitBtn btn-link" type="submit">
+    </form>
+    <button type="button" class="btn btn-warning createBtn" id="share">Click to Create Quiz!</button>
+
+
+    var userID = $(".userID").val();
+    var password = $(".password").val();
+
+
+    if ((userID !== "") && (password !== "")) {
+        console.log('test')
+        //var test = database.ref().exist(userID).on('child_added', function (snapshot) {
+        //    console.log(snapshot.size)
+        //});
+        firebase.auth().createUserWithEmailAndPassword(userID, password).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorCode, errorMessage)
+            // ...
+        });
+    }    

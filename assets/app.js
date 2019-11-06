@@ -11,9 +11,112 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+var signUpBtn = $(".signUp");
+var logInBtn = $(".logIn");
+var userAuthText = $(".userAuth");
+var user = false;
+var username;
 
-var username = "";
+signUpBtn.on("click", function (event) {
+    event.preventDefault();
+    userAuthText.text("");
+    userAuthText.append(
+        "<div class='info'>" +
+        "<form class='enterEmail'>Enter New Email: <input class='userID' type='text'>" +
+        "<form class='enterUsername'>Enter New Username: <input class='newUsername' type='text'>" +
+        "<form class='enterPass'>Enter New Password: <input class='password' type='text'>" +
+        "<input class='submitBtnSU btn-link' type='submit'>" +
+        "</form></form></div>"
+    );
 
+});
+
+logInBtn.on("click", function (event) {
+    event.preventDefault();
+    userAuthText.text("");
+    userAuthText.append(
+        "<div class='info'>" +
+        "<form class='enterEmail'>Enter Existing Email: <input class='userID' type='text'>" +
+        "<form class='enterPass'>Enter Existing Password: <input class='password' type='text'>" +
+        "<input class='submitBtnLI btn-link' type='submit'>" +
+        "</form></form></div>"
+    );
+});
+
+$(document).on("click", ".submitBtnSU", function (event) {
+    event.preventDefault();
+
+    var userID = $(".userID").val();
+    var password = $(".password").val();
+    username = $(".newUsername").val();
+    console.log(username)
+
+    if ((userID !== "") && (password !== "") && (username !== "")) {
+        firebase.auth().createUserWithEmailAndPassword(userID, password).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorCode, errorMessage)
+            // ...
+        });
+    } else {
+        alert("Fill in All Fields to Continue.")
+    }
+});
+
+$(document).on("click", ".submitBtnLI", function (event) {
+    event.preventDefault();
+
+    var userID = $(".userID").val();
+    var password = $(".password").val();
+
+    if ((userID !== "") && (password !== "")) {
+        firebase.auth().signInWithEmailAndPassword(userID, password).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorCode, errorMessage)
+            // ...
+        });
+
+    } else {
+        alert("Fill in All Fields to Continue.")
+    }
+})
+
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        user.updateProfile({
+            displayName: username
+        })
+        $(".enterEmail").text("");
+        $(".enterEmail").append(
+            "<div class='userData'>" +
+            "<h5 class='username'>Username: " +
+            firebase.auth().currentUser.displayName +
+            "</h5>" +
+            "<button class='btn btn-dark signOut'>Sign Out</button>" +
+            "</div>"
+        )
+        // User is signed in.
+        console.log(user)
+        // ...
+    } else {
+        // User is signed out.
+        // ...
+    }
+});
+
+$(document).on("click", ".signOut", function (event) {
+    event.preventDefault();
+    firebase.auth().signOut().then(function () {
+        console.log('Signed Out');
+        document.location.reload();
+    }, function (error) {
+        console.error('Sign Out Error', error);
+    });
+
+})
 //============================This function will populate the leaderboard=============================
 // needs code to get existing leaderboard data from firebase and to save taunt and gif to firebase
 //===========================================================================================

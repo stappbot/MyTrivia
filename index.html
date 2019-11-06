@@ -15,6 +15,7 @@
     <!-- FIREBASE -->
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
     <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/4d58f93612.js" crossorigin="anonymous"></script>
     <!-- CSS -->
@@ -27,6 +28,10 @@
             <div class="col-sm-12">
                 <h1><i class="far fa-keyboard"></i> Trivia</h1>
                 <h2>Make, Play, Share, and Compete.</h2>
+            </div>
+            <div class="userAuth"><button class="signUp btn-link btn">Sign Up</button>
+                <span class="exisitngUser"> or Already an Existing User?<button class="logIn btn-link btn">Log
+                        In</button></span>
             </div>
         </div>
         <div class="container alert alert-info text-center m-4 py-4 row">
@@ -86,7 +91,7 @@
                 </button>
             </div>
         </div>
-        
+
         <!-- container for number of questions-->
         <div class="container alert alert-info text-center m-4 py-4 row" id="number-input">
             <p> How many questions for your quiz?</p>
