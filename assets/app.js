@@ -11,29 +11,108 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
-var submitBtn = $(".submitBtn");
-var userID = $(".userID");
-var form = $(".enterUsername")
+var signUpBtn = $(".signUp");
+var logInBtn = $(".logIn");
+var userAuthText = $(".userAuth");
 var user = false;
 
-submitBtn.on("click", function (event) {
+signUpBtn.on("click", function (event) {
     event.preventDefault();
-    //var test = database.ref().exist(userID).on('child_added', function (snapshot) {
-    //    console.log(snapshot.size)
-    //});
-    var users = database.ref("users")
-    if (userID.val() !== "") {
-        var username = userID.val().trim();
-        users.push({
-            username
-        })
-        form.text("Username: " + username);
-        form.append("<button class='btn btn-dark signOut'>Sign Out</button>");
-        user = true;
+    userAuthText.text("");
+    userAuthText.append(
+        "<form class='enterEmail'>Enter New Email: <input class='userID' type='text'>" +
+        "<form class='enterUsername'>Enter New Username: <input class='newUsername' type='text'>" +
+        "<form class='enterPass'>Enter New Password: <input class='password' type='text'>" +
+        "<input class='submitBtnSU btn-link' type='submit'>" +
+        "</form></form>"
+    );
+});
+
+logInBtn.on("click", function (event) {
+    event.preventDefault();
+    userAuthText.text("");
+    userAuthText.append(
+        "<form class='enterEmail'>Enter Existing Email: <input class='userID' type='text'>" +
+        "<form class='enterPass'>Enter Existing Password: <input class='password' type='text'>" +
+        "<input class='submitBtnLI btn-link' type='submit'>" +
+        "</form></form>"
+    );
+});
+
+$(document).on("click", ".submitBtnSU", function (event) {
+    event.preventDefault();
+
+    var userID = $(".userID").val();
+    var password = $(".password").val();
+    var username = $(".newUsername").val();
+
+    if ((userID !== "") && (password !== "") && (username !== "")) {
+        console.log('test')
+        //var test = database.ref().exist(userID).on('child_added', function (snapshot) {
+        //    console.log(snapshot.size)
+        //});
+        firebase.auth().createUserWithEmailAndPassword(userID, password).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorCode, errorMessage)
+            // ...
+        });
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                $(".enterEmail").text("");
+                $(".enterEmail").append(
+                    "<div class='userData'>" +
+                    "<h5 class='username'>Username:" +
+                    +
+                    "</h5>" +
+                    "</div>"
+                )
+                // User is signed in.
+                console.log(user)
+                // ...
+            } else {
+                // User is signed out.
+                // ...
+            }
+        });
 
     }
-
 });
+
+$(document).on("click", ".submitBtnLI", function (event) {
+    event.preventDefault();
+
+    var userID = $(".userID").val();
+    var password = $(".password").val();
+
+    firebase.auth().signInWithEmailAndPassword(userID, password).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode, errorMessage)
+        // ...
+    });
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            $(".enterEmail").text("");
+            $(".enterEmail").append(
+                "<div class='userData'>" +
+                "<h5 class='username'>Username:" +
+                +
+                "</h5>" +
+                "</div>"
+            )
+            // User is signed in.
+            console.log(user)
+            // ...
+        } else {
+            // User is signed out.
+            // ...
+        }
+    });
+
+})
 
 
 //============================This function will populate the leaderboard=============================
