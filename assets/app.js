@@ -15,27 +15,31 @@ var signUpBtn = $(".signUp");
 var logInBtn = $(".logIn");
 var userAuthText = $(".userAuth");
 var user = false;
+var username;
 
 signUpBtn.on("click", function (event) {
     event.preventDefault();
     userAuthText.text("");
     userAuthText.append(
+        "<div class='info'>" +
         "<form class='enterEmail'>Enter New Email: <input class='userID' type='text'>" +
         "<form class='enterUsername'>Enter New Username: <input class='newUsername' type='text'>" +
         "<form class='enterPass'>Enter New Password: <input class='password' type='text'>" +
         "<input class='submitBtnSU btn-link' type='submit'>" +
-        "</form></form>"
+        "</form></form></div>"
     );
+
 });
 
 logInBtn.on("click", function (event) {
     event.preventDefault();
     userAuthText.text("");
     userAuthText.append(
+        "<div class='info'>" +
         "<form class='enterEmail'>Enter Existing Email: <input class='userID' type='text'>" +
         "<form class='enterPass'>Enter Existing Password: <input class='password' type='text'>" +
         "<input class='submitBtnLI btn-link' type='submit'>" +
-        "</form></form>"
+        "</form></form></div>"
     );
 });
 
@@ -44,10 +48,12 @@ $(document).on("click", ".submitBtnSU", function (event) {
 
     var userID = $(".userID").val();
     var password = $(".password").val();
-    var username = $(".newUsername").val();
+    username = $(".newUsername").val();
+    console.log(username)
 
     if ((userID !== "") && (password !== "") && (username !== "")) {
         console.log('test')
+        //var currentUser = firebase.auth().currentUser;
         //var test = database.ref().exist(userID).on('child_added', function (snapshot) {
         //    console.log(snapshot.size)
         //});
@@ -58,25 +64,8 @@ $(document).on("click", ".submitBtnSU", function (event) {
             console.log(errorCode, errorMessage)
             // ...
         });
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                $(".enterEmail").text("");
-                $(".enterEmail").append(
-                    "<div class='userData'>" +
-                    "<h5 class='username'>Username:" +
-                    +
-                    "</h5>" +
-                    "</div>"
-                )
-                // User is signed in.
-                console.log(user)
-                // ...
-            } else {
-                // User is signed out.
-                // ...
-            }
-        });
-
+    } else {
+        alert("Fill in All Fields to Continue.")
     }
 });
 
@@ -86,35 +75,53 @@ $(document).on("click", ".submitBtnLI", function (event) {
     var userID = $(".userID").val();
     var password = $(".password").val();
 
-    firebase.auth().signInWithEmailAndPassword(userID, password).catch(function (error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorCode, errorMessage)
+    if ((userID !== "") && (password !== "")) {
+        firebase.auth().signInWithEmailAndPassword(userID, password).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorCode, errorMessage)
+            // ...
+        });
+
+    } else {
+        alert("Fill in All Fields to Continue.")
+    }
+})
+
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        user.updateProfile({
+            displayName: username
+        })
+        $(".enterEmail").text("");
+        $(".enterEmail").append(
+            "<div class='userData'>" +
+            "<h5 class='username'>Username: " +
+            firebase.auth().currentUser.displayName +
+            "</h5>" +
+            "<button class='btn btn-dark signOut'>Sign Out</button>" +
+            "</div>"
+        )
+        // User is signed in.
+        console.log(user)
         // ...
-    });
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            $(".enterEmail").text("");
-            $(".enterEmail").append(
-                "<div class='userData'>" +
-                "<h5 class='username'>Username:" +
-                +
-                "</h5>" +
-                "</div>"
-            )
-            // User is signed in.
-            console.log(user)
-            // ...
-        } else {
-            // User is signed out.
-            // ...
-        }
+    } else {
+        // User is signed out.
+        // ...
+    }
+});
+
+$(document).on("click", ".signOut", function (event) {
+    event.preventDefault();
+    firebase.auth().signOut().then(function () {
+        console.log('Signed Out');
+        document.location.reload();
+    }, function (error) {
+        console.error('Sign Out Error', error);
     });
 
 })
-
-
 //============================This function will populate the leaderboard=============================
 // needs code to get existing leaderboard data from firebase and to save taunt and gif to firebase
 //===========================================================================================
@@ -175,45 +182,65 @@ $("#taunt-button").on("click", function () {
 });
 //===================== end of leaderboard script=========================
 
+
 var opentdbURL = "https://opentdb.com/api.php?&type=multiple";
 var queryParam = "";
 var numQuestions = 0;
 var difficulty = "";
 var questionsArr = [];
 
+//START GAME!
 $("#start").click(function () {
     $("#start").remove();
     triviaGame.currentQuestion();
 });
 
+//RESET GAME!
 $(document).on("click", "#reset", function () {
     $("#reset").remove();
     $("#main").empty();
     triviaGame.resetGame();
 });
 
+//Game Running, user guesses an answer
 $(document).on("click", ".choiceButton", function (event) {
     triviaGame.buttonClick(event);
 });
 
+//Pre-Game: user picks a catagory for trivia questions
+// modifies queryParam accordingly
 $(document).on("click", ".categoryButton", function () {
     var category = $(this).attr("data-category");
     queryParam = "q=" + category;
     $("#categoriesDiv").remove();
 });
 
+//Pre-game: User enters desired number of quesitons
+// modifies queryParam accordingly
 $("#numSubmit").on("click", function () {
     var numQuestions = $(this).val();
     queryParam += "&amount=" + numQuestions;
     $("#numQuestionsDiv").remove();
 });
 
+//Pre-game: User chooses difficulty for trivia questions-- easy/med/hard (or any)
+// modifies queryParam accordingly
 $(".difficultyButton").on("click", function () {
-    var difficulty = $(this).attr("data-difficulty");
-    queryParam += "&difficulty=" + difficulty;
-    $("#difficultyDiv").remove();
+    if ($(this).attr(data - difficulty) === "any") {
+        return;
+    }
+    else {
+        var difficulty = $(this).attr("data-difficulty");
+        queryParam += "&difficulty=" + difficulty;
+        $("#difficultyDiv").remove();
+
+    }
 });
 
+//AJAX call to openTDB API, using queryParam to find the specific trivia quiz(object array)
+// send questions to questionsArr = [{question, choices, answer}...{}]
+// push incorrect answers into questionsArr[i].choices and then splice the correct answer into it at a random position
+// this way the correct answer will not be in the same position for each question
 $.ajax({
     url: opentdbURL + queryParam,
     method: "GET"
@@ -223,13 +250,14 @@ $.ajax({
         questionsArr[i].question = response.results[i].question;
         randAnswerPos = Math.floor(Math.random() * 4);
         questionsArr[i].answer = response.results[i].correct_answer;
-        // questionsArr[i].choices[randAnswerPos] = questionsArr[i].answer;
         for (var j = 0; j < 3; j++) {
             questionsArr[i].choices.push(response.results.incorrect_answers[j]);
         }
         questionsArr[i].choices.splice(randAnswerPos, 0, questionsArr[i].answer);
     }
 });
+
+//HARD CODED QUIZ, FOR TESTING PURPOSES ONLY, REMOVE BEFORE SUBMITTING//
 
 // questionsArr = [{
 
@@ -277,6 +305,7 @@ var triviaGame = {
     incorrectAnswers: 0,
     unansweredQs: 0,
 
+    //30s Timer for each question  
     gameTimer: function () {
         $("#ticker").html(triviaGame.timeLeft + " seconds remaining");
         triviaGame.timeLeft--;
@@ -284,6 +313,8 @@ var triviaGame = {
             triviaGame.outOfTime();
         }
     },
+
+    //function loads question
     currentQuestion: function () {
         $("#main").empty();
         timer = setInterval(triviaGame.gameTimer, 1000);
@@ -307,6 +338,7 @@ var triviaGame = {
         }
     },
 
+    // function determines what happens when user clicks a button for their response to the question
     buttonClick: function (event) {
         triviaGame.resetTimer();
         if (
@@ -319,11 +351,14 @@ var triviaGame = {
         }
     },
 
+    //function loads next question
     nextQuestion: function () {
         triviaGame.resetTimer();
         triviaGame.numberQuestion++;
         triviaGame.currentQuestion();
     },
+
+    //function for when the user runs out of time on the current question
     outOfTime: function () {
         triviaGame.resetTimer();
         triviaGame.unansweredQs++;
@@ -336,6 +371,7 @@ var triviaGame = {
         }
     },
 
+    // when the user guesses the correct answer
     correctAns: function () {
         triviaGame.resetTimer();
         $("#ticker").html("<p> </p>");
@@ -348,6 +384,7 @@ var triviaGame = {
         }
     },
 
+    //when the user guesses the wrong answer
     wrongAns: function () {
         triviaGame.resetTimer();
         triviaGame.incorrectAnswers++;
@@ -360,6 +397,7 @@ var triviaGame = {
         }
     },
 
+    //all questions have been answered/unanswered then results are shown
     finalScore: function () {
         $("#QUESTION").empty();
         $("#main").html("COMPLETE!");
@@ -370,6 +408,8 @@ var triviaGame = {
             "<p> </p>" + "<button id= 'reset'>" + "Reset" + "</button>"
         );
     },
+
+    //resets the current game
     resetGame: function () {
         correctAnswers = 0;
         incorrectAnswers = 0;
@@ -379,8 +419,11 @@ var triviaGame = {
         triviaGame.currentQuestion();
     },
 
+    //resets question timer
     resetTimer: function () {
         clearInterval(timer);
         triviaGame.timeLeft = 30;
     }
 };
+
+
