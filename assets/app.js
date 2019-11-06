@@ -186,6 +186,7 @@ var questionsLimit = 0;
 var catagoryChosen = false;
 var questionsLimitChosen = false;
 var difficultyChosen = false;
+var openTDBArr = [];
 
 
 //START GAME!
@@ -202,21 +203,29 @@ $("#start").click(function () {
         method: "GET"
     }).then(function (response) {
 
-        questionsArr = response.results;
-        console.log(questionsArr);
-        for (var i = 0; i < questionsArr.length; i++) {
-            questionsArr[i].choices = questionsArr[i].incorrect_answers;
-            questionsArr[i].answer = response.results[i].correct_answer;
-            randAnswerPos = Math.floor(Math.random() * 4);
-            for (var j = 0; j < 3; j++) {
-                questionsArr[i].choices.push(response.results.incorrect_answers[j]);
-            }
-            questionsArr[i].choices.splice(randAnswerPos, 0, questionsArr[i].answer);
-        }
+        openTDBArr = response.results;
+        console.log(openTDBArr);
+        formatArray();
+        triviaGame.currentQuestion();
     });
-
-    triviaGame.currentQuestion();
+    
+    
 });
+
+//random comment
+function formatArray() {
+    console.log(openTDBArr.length);
+    for (var i = 0; i < openTDBArr.length; i++) {
+        openTDBArr[i].choices = openTDBArr[i].incorrect_answers;
+        openTDBArr[i].answer = openTDBArr[i].correct_answer;
+        
+        randAnswerPos = Math.floor(Math.random() * 4);
+        openTDBArr[i].choices.splice(randAnswerPos, 0, openTDBArr[i].answer);
+        console.log(openTDBArr[i]);
+    }
+    questionsArr = openTDBArr;
+}
+
 
 //RESET GAME!
 $(document).on("click", "#reset", function () {
