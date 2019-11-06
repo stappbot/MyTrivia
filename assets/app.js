@@ -77,13 +77,41 @@ $("#taunt-button").on("click", function () {
 
 var opentdbURL = "https://opentdb.com/api.php?&type=multiple";
 var queryParam = "";
-var numQuestions = 0;
 var difficulty = "";
 var questionsArr = [];
+var questionsLimit = 0;
+var catagoryChosen = false;
+var questionsLimitChosen = false;
+var difficultyChosen = false;
+
 
 //START GAME!
 $("#start").click(function () {
     $("#start").remove();
+
+    //AJAX call to openTDB API, using queryParam to find the specific trivia quiz(object array)
+    // send questions to questionsArr = [{question, choices, answer}...{}]
+    // push incorrect answers into questionsArr[i].choices and then splice the correct answer into it at a random position
+    // this way the correct answer will not be in the same position for each question
+
+    $.ajax({
+        url: opentdbURL + queryParam,
+        method: "GET"
+    }).then(function (response) {
+
+        questionsArr = response.results;
+        console.log(questionsArr);
+        for (var i = 0; i < questionsArr.length; i++) {
+            questionsArr[i].choices = questionsArr[i].incorrect_answers;
+            questionsArr[i].answer = response.results[i].correct_answer;
+            randAnswerPos = Math.floor(Math.random() * 4);
+            for (var j = 0; j < 3; j++) {
+                questionsArr[i].choices.push(response.results.incorrect_answers[j]);
+            }
+            questionsArr[i].choices.splice(randAnswerPos, 0, questionsArr[i].answer);
+        }
+    });
+
     triviaGame.currentQuestion();
 });
 
@@ -103,50 +131,33 @@ $(document).on("click", ".choiceButton", function (event) {
 // modifies queryParam accordingly
 $(document).on("click", ".categoryButton", function () {
     var category = $(this).attr("data-category");
-    queryParam = "q=" + category;
+    queryParam = "&category=" + category;
     $("#categoriesDiv").remove();
-});
-
-//Pre-game: User enters desired number of quesitons
-// modifies queryParam accordingly
-$("#numSubmit").on("click", function () {
-    var numQuestions = $(this).val();
-    queryParam += "&amount=" + numQuestions;
-    $("#numQuestionsDiv").remove();
+    catagoryChosen = true;
 });
 
 //Pre-game: User chooses difficulty for trivia questions-- easy/med/hard (or any)
 // modifies queryParam accordingly
 $(".difficultyButton").on("click", function () {
-    if($(this).attr(data-difficulty) === "any"){
+    $("#difficultyDiv").remove();
+    if ($(this).attr("data-difficulty") === "any") {
         return;
     }
-    else{
-        var difficulty = $(this).attr("data-difficulty");
+    else {
+        difficulty = $(this).attr("data-difficulty");
         queryParam += "&difficulty=" + difficulty;
-        $("#difficultyDiv").remove();
-
     }
+    difficultyChosen = true;
 });
 
-//AJAX call to openTDB API, using queryParam to find the specific trivia quiz(object array)
-// send questions to questionsArr = [{question, choices, answer}...{}]
-// push incorrect answers into questionsArr[i].choices and then splice the correct answer into it at a random position
-// this way the correct answer will not be in the same position for each question
-$.ajax({
-    url: opentdbURL + queryParam,
-    method: "GET"
-}).then(function (response) {
-    for (var i = 0; i < response.results.length; i++) {
-        questionsArr.push(response.results[i]);
-        questionsArr[i].question = response.results[i].question;
-        randAnswerPos = Math.floor(Math.random() * 4);
-        questionsArr[i].answer = response.results[i].correct_answer;
-        for (var j = 0; j < 3; j++) {
-            questionsArr[i].choices.push(response.results.incorrect_answers[j]);
-        }
-        questionsArr[i].choices.splice(randAnswerPos, 0, questionsArr[i].answer);
-    }
+//Pre-game: User enters desired number of quesitons
+// modifies queryParam accordingly
+$("#numQuestionsButton").on("click", function () {
+    questionsLimit = $("#numQuestions-input").val();
+    $("#number-input").remove();
+    questionsLimitChosen = true;
+    queryParam += "&amount=" + questionsLimit;
+    console.log(queryParam);
 });
 
 //HARD CODED QUIZ, FOR TESTING PURPOSES ONLY, REMOVE BEFORE SUBMITTING//
@@ -317,5 +328,3 @@ var triviaGame = {
         triviaGame.timeLeft = 30;
     }
 };
-
-
