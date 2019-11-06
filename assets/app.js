@@ -52,11 +52,6 @@ $(document).on("click", ".submitBtnSU", function (event) {
     console.log(username)
 
     if ((userID !== "") && (password !== "") && (username !== "")) {
-        console.log('test')
-        //var currentUser = firebase.auth().currentUser;
-        //var test = database.ref().exist(userID).on('child_added', function (snapshot) {
-        //    console.log(snapshot.size)
-        //});
         firebase.auth().createUserWithEmailAndPassword(userID, password).catch(function (error) {
             // Handle Errors here.
             var errorCode = error.code;
