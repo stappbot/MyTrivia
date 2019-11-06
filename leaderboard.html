@@ -13,17 +13,19 @@
     <link rel="stylesheet" href="assets/style.css">
 </head>
 
-<body>
+<body
+    style="background-attachment: fixed; background-repeat: no-repeat; background-image: url(assets/question-bg.jpeg);">
 
     <!--leaderboard will be hidden until quiz is complete-->
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-2">
                 <div class="jumbotron-fluid">
-                    <h1 class="display-4 text-center">Leaderboard</h1>
-                    <input id="taunt-input" class="form-control" type="text" placeholder="Throw some shade">
-                    <button type="button" class="btn btn-warning m-3" id="taunt-button">Taunt</button>
-                    <table class="table">
+                    <h1 class="display-4 text-white text-center">Leaderboard</h1>
+                    <input id="taunt-input" class="form-control" type="text" placeholder="Throw some shade..."
+                        style="opacity: .5">
+                    <button type="button" class="btn btn-outline-light m-3" id="taunt-button">Taunt</button>
+                    <table class="table text-white">
                         <thead>
                             <tr>
                                 <th scope="col">Rank</th>
