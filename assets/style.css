@@ -2,5 +2,25 @@
 h1,
 h2,
 .button {
-  font-family: Georgia, "Times New Roman", Times, serif;
+    font-family: Georgia, "Times New Roman", Times, serif;
 }
+
+.signOut{
+    margin-left: 10px;
+}
+
+.userAuth{
+    margin: 0 auto;
+}
+
+.info{
+    margin: 0 auto;
+    min-width: 176px;
+    max-width: 176px;
+}
+
+.signUp, .logIn{
+    background-color: #ffffff;
+    margin: 5px;
+}
+
