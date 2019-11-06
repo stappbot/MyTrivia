@@ -34,86 +34,88 @@
                         In</button></span>
             </div>
         </div>
-        <div class="container alert alert-info text-center m-4 py-4">
-            <div class="row">
-                <div class="col-sm-12 col-md-6" id="button-display">
-                    <button type="button" class="btn btn-warning" id="start">
-                        Start
-                    </button>
-                    <button type="button" class="btn btn-warning" id="share">
-                        Share
-                    </button>
+        <div class="container alert alert-info text-center m-4 py-4 row">
+            <div class="col-sm-12 col-md-6" id="button-display">
+                <button type="button" class="btn btn-warning" id="start">
+                    Start
+                </button>
+                <button type="button" class="btn btn-warning" id="share">
+                    Share
+                </button>
 
-                    <button type="button" class="btn btn-warning" id="reset">
-                        <i class="fas fa-trash-alt"></i> Reset
-                    </button>
-                </div>
+                <button type="button" class="btn btn-warning" id="reset">
+                    <i class="fas fa-trash-alt"></i> Reset
+                </button>
             </div>
         </div>
 
         <!-- container for categories -->
-        <div class="container alert alert-info text-center m-4 py-4" id="categoriesDiv">
-            <div class="row">
-                <div class="col-sm-12 col-md-6" id="button-display">
-                    <button type="button" class="btn btn-warning categoryButton" id="Animal" data-category="27">
-                        Animal
-                    </button>
-                    <button type="button" class="btn btn-warning categoryButton" id="Computers" data-category="18">
-                        Computers
-                    </button>
-                    <button type="button" class="btn btn-warning categoryButton" id="History" data-category="25">
-                        Art
-                    </button>
-                    <button type="button" class="btn btn-warning categoryButton" id="Geography" data-category="22">
-                        Geography
-                    </button>
-                    <button type="button" class="btn btn-warning categoryButton" id="VideoGames" data-category="15">
-                        Video Games
-                    </button>
-                    <button type="button" class="btn btn-warning categoryButton" id="Mythology" data-category="20">
-                        Mythology
-                    </button>
+        <div class="container alert alert-info text-center m-4 py-4 row" id="categoriesDiv">
+            <div class="col-sm-12 col-md-6" id="button-display">
+                <button type="button" class="btn btn-warning categoryButton" id="Animals" data-category="27">
+                    Animals
+                </button>
+                <button type="button" class="btn btn-warning categoryButton" id="Computers" data-category="18">
+                    Computers
+                </button>
+                <button type="button" class="btn btn-warning categoryButton" id="History" data-category="25">
+                    Art
+                </button>
+                <button type="button" class="btn btn-warning categoryButton" id="Geography" data-category="22">
+                    Geography
+                </button>
+                <button type="button" class="btn btn-warning categoryButton" id="VideoGames" data-category="15">
+                    Video Games
+                </button>
+                <button type="button" class="btn btn-warning categoryButton" id="Mythology" data-category="20">
+                    Mythology
+                </button>
+            </div>
+        </div>
+
+        <!-- container for difficulty -->
+        <div class="container alert alert-info text-center m-4 py-4 row" id="difficultyDiv">
+            <div class="col-sm-12 col-md-6" id="button-display">
+                <button type="button" class="btn btn-warning difficultyButton" data-difficulty="easy">
+                    Easy
+                </button>
+                <button type="button" class="btn btn-warning difficultyButton" data-difficulty="medium">
+                    Medium
+                </button>
+
+                <button type="button" class="btn btn-warning difficultyButton" data-difficulty="hard">
+                    Hard
+                </button>
+                <button type="button" class="btn btn-warning difficultyButton" data-difficulty="any">
+                    Any
+                </button>
+            </div>
+        </div>
+
+        <!-- container for number of questions-->
+        <div class="container alert alert-info text-center m-4 py-4 row" id="number-input">
+            <p> How many questions for your quiz?</p>
+            <input type="text" id="numQuestions-input">
+            <button type="button" class="btn btn-warning" id="numQuestionsButton"> GO! </button>
+        </div>
+
+        <div class="container alert alert-info text-center m-4 py-4">
+            <div class="row px-4">
+                <div class="col-sm-12 col-md-6" id="options">
+                    <p>
+                        Click
+                        <span><button type="button" class="btn btn-warning" id="join">
+                                Join
+                            </button></span>
+                        to play previously created trivia <br />
+                        games and challenge the contenders.
+                    </p>
                 </div>
             </div>
+        </div>
 
-            <!-- container for difficulty -->
-            <div class="container alert alert-info text-center m-4 py-4" id="difficultyDiv">
-                <div class="row">
-                    <div class="col-sm-12 col-md-6" id="button-display">
-                        <button type="button" class="btn btn-warning difficultyButton" data-difficulty="easy">
-                            Easy
-                        </button>
-                        <button type="button" class="btn btn-warning difficultyButton" data-difficulty="medium">
-                            Medium
-                        </button>
-
-                        <button type="button" class="btn btn-warning difficultyButton" data-difficulty="hard">
-                            Hard
-                        </button>
-                        <button type="button" class="btn btn-warning difficultyButton" data-difficulty="any">
-                            Any
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container alert alert-info text-center m-4 py-4">
-                <div class="row px-4">
-                    <div class="col-sm-12 col-md-6" id="options">
-                        <p>
-                            Click
-                            <span><button type="button" class="btn btn-warning" id="join">
-                                    Join
-                                </button></span>
-                            to play previously created trivia <br />
-                            games and challenge the contenders.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- APP.JS-->
-            <script src="assets/app.js"></script>
+        <!-- APP.JS-->
+        <script src="assets/app.js"></script>
 </body>
 
 </html>
