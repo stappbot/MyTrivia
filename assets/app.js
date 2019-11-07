@@ -163,40 +163,61 @@ var queryParam = "";
 var difficulty = "";
 var questionsArr = [];
 var questionsLimit = 0;
-var catagoryChosen = false;
+var categoryChosen = false;
 var questionsLimitChosen = false;
 var difficultyChosen = false;
+var openTDBArr = [];
+// var joinButton = null ;
 
+$(document).ready(function(){
+    // $("#joinDiv").remove();
+});
 
 //START GAME!
 $("#start").click(function () {
-    $("#start").remove();
+
 
     //AJAX call to openTDB API, using queryParam to find the specific trivia quiz(object array)
     // send questions to questionsArr = [{question, choices, answer}...{}]
     // push incorrect answers into questionsArr[i].choices and then splice the correct answer into it at a random position
     // this way the correct answer will not be in the same position for each question
-
-    $.ajax({
-        url: opentdbURL + queryParam,
-        method: "GET"
-    }).then(function (response) {
-
-        questionsArr = response.results;
-        console.log(questionsArr);
-        for (var i = 0; i < questionsArr.length; i++) {
-            questionsArr[i].choices = questionsArr[i].incorrect_answers;
-            questionsArr[i].answer = response.results[i].correct_answer;
-            randAnswerPos = Math.floor(Math.random() * 4);
-            for (var j = 0; j < 3; j++) {
-                questionsArr[i].choices.push(response.results.incorrect_answers[j]);
-            }
-            questionsArr[i].choices.splice(randAnswerPos, 0, questionsArr[i].answer);
-        }
-    });
-
-    triviaGame.currentQuestion();
+    if (difficultyChosen && questionsLimitChosen && categoryChosen) {
+        $("#start").remove();
+        $.ajax({
+            url: opentdbURL + queryParam,
+            method: "GET"
+        }).then(function (response) {
+            openTDBArr = response.results;
+            console.log(openTDBArr);
+            formatArray();
+            triviaGame.currentQuestion();
+        });
+    }
+    if (!difficultyChosen) {
+        $("#difficultyDiv").append("Please choose difficulty");
+    }
+    if (!categoryChosen) {
+        console.log("Choose a category");
+        $("categoryDiv").append("Please choose a category");
+    }
+    if (!questionsLimitChosen) {
+        $("#number-input").append("Please enter a number of questions");
+    }
 });
+
+function formatArray() {
+    console.log(openTDBArr.length);
+    for (var i = 0; i < openTDBArr.length; i++) {
+        openTDBArr[i].choices = openTDBArr[i].incorrect_answers;
+        openTDBArr[i].answer = openTDBArr[i].correct_answer;
+
+        randAnswerPos = Math.floor(Math.random() * 4);
+        openTDBArr[i].choices.splice(randAnswerPos, 0, openTDBArr[i].answer);
+        console.log(openTDBArr[i]);
+    }
+    questionsArr = openTDBArr;
+}
+
 
 //RESET GAME!
 $(document).on("click", "#reset", function () {
@@ -216,7 +237,7 @@ $(document).on("click", ".categoryButton", function () {
     var category = $(this).attr("data-category");
     queryParam = "&category=" + category;
     $("#categoriesDiv").remove();
-    catagoryChosen = true;
+    categoryChosen = true;
 });
 
 //Pre-game: User chooses difficulty for trivia questions-- easy/med/hard (or any)
@@ -283,6 +304,20 @@ $("#numQuestionsButton").on("click", function () {
 //     choices: ["Guitar", "Piano", "Violin", "Drums"],
 //     answer: "Piano"}]
 
+function addJoin(){
+    var joinDiv = $("<div>") ;
+    joinButton = $("<button>") ;
+    joinButton.attr("class" , "btn btn-outline-light") ;
+    joinButton.attr("id" , "joinButton options") ;
+    joinButton.text("Join") ;
+    joinDiv.attr("class" , "container text-white text-center m-4 py-4 row px-4 col-sm-12 col-md-6") ;
+    joinDiv.attr("id" , "options ") ;
+    joinDiv.append("<p> Join to play previously created game and challenge other players </p>" );
+    joinDiv.append(joinButton);
+    $("#main").append(joinDiv) ;
+}
+
+// functions for the current trivia game
 var triviaGame = {
     triviaQuestions: questionsArr,
     numberQuestion: 0,
@@ -304,17 +339,17 @@ var triviaGame = {
     currentQuestion: function () {
         $("#main").empty();
         timer = setInterval(triviaGame.gameTimer, 1000);
-        $("#QUESTION").html(
-            "<h3>" + questionsArr[triviaGame.numberQuestion].question + "</h3>"
-        );
+        var questionDiv = $("<div>");
+        $("#main").append(questionDiv);
+        questionDiv.html("<h3>" + questionsArr[triviaGame.numberQuestion].question + "</h3>");
 
         for (
             var i = 0;
             i < questionsArr[triviaGame.numberQuestion].choices.length;
             i++
         ) {
-            $("#main").append(
-                "<button class= 'choiceButton' data-choice= '" +
+            questionDiv.append(
+                "<button class= 'choiceButton btn btn-outline-light' data-choice= '" +
                 questionsArr[triviaGame.numberQuestion].choices[i] +
                 "'>" +
                 questionsArr[triviaGame.numberQuestion].choices[i] +
@@ -328,7 +363,7 @@ var triviaGame = {
     buttonClick: function (event) {
         triviaGame.resetTimer();
         if (
-            $(event.target).data("choice") ===
+            $(event.target).data("choice") ==
             questionsArr[triviaGame.numberQuestion].answer
         ) {
             triviaGame.correctAns();
@@ -391,8 +426,11 @@ var triviaGame = {
         $("#main").append("<p> </p>" + "Incorrect: " + triviaGame.incorrectAnswers);
         $("#main").append("<p> </p>" + "Unanswered: " + triviaGame.unansweredQs);
         $("#main").append(
-            "<p> </p>" + "<button id= 'reset'>" + "Reset" + "</button>"
+            "<p> Replay this Quiz! </p>" + "<button class='btn btn-outline-light' id= 'reset'>" + "Go!" + "</button>"
         );
+        addJoin();
+        // var joinDiv = $("#joinDiv");
+        // $("#main").append(joinDiv);
     },
 
     //resets the current game
@@ -411,3 +449,5 @@ var triviaGame = {
         triviaGame.timeLeft = 30;
     }
 };
+
+
