@@ -1,7 +1,8 @@
 #welcome-display,
 h1,
 h2,
-.button {
+.button,
+.userLoggedIn {
     font-family: Georgia, "Times New Roman", Times, serif;
 }
 
@@ -19,8 +20,10 @@ h2,
     max-width: 176px;
 }
 
-.signUp, .logIn{
-    background-color: #ffffff;
+.signUp, .logIn{ 
     margin: 5px;
 }
 
+.userLoggedIn{
+    font-size: 18px;
+}

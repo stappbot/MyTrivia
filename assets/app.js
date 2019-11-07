@@ -11,82 +11,80 @@ var config = {
 firebase.initializeApp(config);
 
 var db = firebase.firestore();
-var signUpBtn = $(".signUp");
+var user;
+
 var logInBtn = $(".logIn");
 var userAuthText = $(".userAuth");
-var user = false;
-var username;
-
-signUpBtn.on("click", function (event) {
-    event.preventDefault();
-    userAuthText.text("");
-    userAuthText.append(
-        "<div class='info'>" +
-        "<form class='enterEmail'>Enter New Email: <input class='userID' type='text'>" +
-        "<form class='enterUsername'>Enter New Username: <input class='newUsername' type='text'>" +
-        "<form class='enterPass'>Enter New Password: <input class='password' type='text'>" +
-        "<input class='submitBtnSU btn-link' type='submit'>" +
-        "</form></form></div>"
-    );
-
-});
 
 logInBtn.on("click", function (event) {
     event.preventDefault();
+    logIn();
+});
+
+$(document).on("click", "#joinButton", function () {
+    console.log("ih")
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            console.log("test")
+        } else {
+            logIn();
+        }
+    })
+});
+
+var logIn = function () {
+
+    var provider = new firebase.auth.GoogleAuthProvider();
     userAuthText.text("");
-    userAuthText.append(
-        "<div class='info'>" +
-        "<form class='enterEmail'>Enter Existing Email: <input class='userID' type='text'>" +
-        "<form class='enterPass'>Enter Existing Password: <input class='password' type='text'>" +
-        "<input class='submitBtnLI btn-link' type='submit'>" +
-        "</form></form></div>"
-    );
-});
+    firebase.auth().signInWithPopup(provider).then(function (result) {
+        var token = result.credential.accessToken;
+        var user = result.user;
 
-$(document).on("click", ".submitBtnSU", function (event) {
-    event.preventDefault();
+        const id = user.uid;
+        const name = user.displayName;
 
-
-});
-
-$(document).on("click", ".submitBtnLI", function (event) {
-    event.preventDefault();
-
-
-})
-
-firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-        user.updateProfile({
-            displayName: username
-        })
-        console.log(firebase.auth().currentUser.displayName)
-        $(".enterEmail").text("");
-        $(".enterEmail").append(
-            "<div class='userData'>" +
-            "<h5 class='username'>Username: " +
-            firebase.auth().currentUser.displayName +
-            "</h5>" +
-            "<button class='btn btn-dark signOut'>Sign Out</button>" +
-            "</div>"
-        )
-        $(".userAuth").text("");
-        $(".userAuth").append(
-            "<div class='userData'>" +
-            "<h5 class='username'>Username: " +
-            firebase.auth().currentUser.displayName +
-            "</h5>" +
-            "<button class='btn btn-dark signOut'>Sign Out</button>" +
-            "</div>"
-        )
-        // User is signed in.
         console.log(user)
-        // ...
-    } else {
-        // User is signed out.
-        // ...
-    }
-});
+        db.collection("users").where("id", "==", id).get().then(function (querySnapshot) {
+            if (querySnapshot.size === 0) {
+                db.collection("users").add({
+                    name: name,
+                    id: id,
+                }).then(function (localId) {
+                    localStorage.setItem("id", id)
+                    console.log(localStorage.getItem("id"))
+                }).catch(function (error) {
+                    console.log("Error: ", error)
+                })
+            } else {
+                localStorage.setItem("id", id)
+            }
+        })
+        userAuthText.append(
+            "<div class='userLoggedIn'> User: " +
+            user.displayName +
+            "<button class='signOut btn btn-outline-light'>Sign Out</button>" +
+            "</div>"
+        )
+    }).catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        var email = error.email;
+        var credential = error.credential;
+
+        console.log(errorCode, errorMessage, email, credential)
+    })
+}
+
+var loggedInUser = function () {
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            console.log(user)
+        } else {
+            window.localStorage.clear();
+        }
+
+    });
+}
 
 $(document).on("click", ".signOut", function (event) {
     event.preventDefault();
@@ -95,6 +93,18 @@ $(document).on("click", ".signOut", function (event) {
         document.location.reload();
     }, function (error) {
         console.error('Sign Out Error', error);
+    });
+    loggedInUser();
+})
+
+$("#share").on("click", function () {
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            console.log(user)
+        } else {
+            logIn();
+        }
+
     });
 })
 //============================This function will populate the leaderboard=============================
@@ -169,7 +179,7 @@ var difficultyChosen = false;
 var openTDBArr = [];
 // var joinButton = null ;
 
-$(document).ready(function(){
+$(document).ready(function () {
     // $("#joinDiv").remove();
 });
 
@@ -198,7 +208,7 @@ $("#start").click(function () {
     }
     if (!categoryChosen) {
         console.log("Choose a category");
-        $("categoryDiv").append("Please choose a category");
+        $("#categoriesDiv").append("Please choose a category");
     }
     if (!questionsLimitChosen) {
         $("#number-input").append("Please enter a number of questions");
@@ -304,18 +314,20 @@ $("#numQuestionsButton").on("click", function () {
 //     choices: ["Guitar", "Piano", "Violin", "Drums"],
 //     answer: "Piano"}]
 
-function addJoin(){
-    var joinDiv = $("<div>") ;
-    joinButton = $("<button>") ;
-    joinButton.attr("class" , "btn btn-outline-light") ;
-    joinButton.attr("id" , "joinButton options") ;
-    joinButton.text("Join") ;
-    joinDiv.attr("class" , "container text-white text-center m-4 py-4 row px-4 col-sm-12 col-md-6") ;
-    joinDiv.attr("id" , "options ") ;
-    joinDiv.append("<p> Join to play previously created game and challenge other players </p>" );
+function addJoin() {
+    var joinDiv = $("<div>");
+    joinButton = $("<button>");
+    joinButton.attr("class", "btn btn-outline-light");
+    joinButton.attr("id", "joinButton options");
+    joinButton.text("Join");
+    joinDiv.attr("class", "container text-white text-center m-4 py-4 row px-4 col-sm-12 col-md-6");
+    joinDiv.attr("id", "options ");
+    joinDiv.append("<p> Join to play previously created game and challenge other players </p>");
     joinDiv.append(joinButton);
-    $("#main").append(joinDiv) ;
+    $("#main").append(joinDiv);
 }
+
+
 
 // functions for the current trivia game
 var triviaGame = {
