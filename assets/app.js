@@ -12,6 +12,7 @@ firebase.initializeApp(config);
 
 var db = firebase.firestore();
 var user;
+var usernameFromLocalStorage;
 
 var logInBtn = $(".logIn");
 var userAuthText = $(".userAuth");
@@ -21,19 +22,41 @@ logInBtn.on("click", function (event) {
     logIn();
 });
 
-$(document).on("click", "#joinButton", function () {
-    console.log("ih")
+
+
+function userLog() {
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-            $("#options").text("");
-            $("#options").append(
-
+            userAuthText.text("");
+            userAuthText.append(
+                "<div class='userLoggedIn'> User: " +
+                user.displayName +
+                "<button class='signOut btn btn-outline-light'>Sign Out</button>" +
+                "</div>"
             )
         } else {
-            logIn();
+
         }
-    })
-});
+    });
+}
+
+userLog();
+// $(document).on("click", "#joinButton", function () {
+//     console.log("ih")
+//     firebase.auth().onAuthStateChanged(function (user) {
+//         if (user) {
+//             $("#options").text("");
+//             $("#options").append(
+//                 "<div class='userLoggedIn'> User: " +
+//                 name +
+//                 "<button class='signOut btn btn-outline-light'>Sign Out</button>" +
+//                 "</div>"
+//             )
+//         } else {
+//             logIn();
+//         }
+//     })
+// });
 
 var logIn = function () {
 
@@ -42,10 +65,17 @@ var logIn = function () {
     firebase.auth().signInWithPopup(provider).then(function (result) {
         var token = result.credential.accessToken;
         var user = result.user;
-
         const id = user.uid;
         const name = user.displayName;
         const email = user.email
+
+        console.log(name)
+        userAuthText.append(
+            "<div class='userLoggedIn'> User: " +
+            name +
+            "<button class='signOut btn btn-outline-light'>Sign Out</button>" +
+            "</div>"
+        )
 
         console.log(user)
         db.collection("users").where("id", "==", id).get().then(function (querySnapshot) {
@@ -55,21 +85,22 @@ var logIn = function () {
                     id: id,
                     email: email
                 }).then(function (localId) {
+                    console.log("adding new user")
                     localStorage.setItem("id", id)
                     console.log(localStorage.getItem("id"))
                 }).catch(function (error) {
                     console.log("Error: ", error)
                 })
             } else {
+                console.log('logging in existing user')
                 localStorage.setItem("id", id)
             }
         })
-        userAuthText.append(
-            "<div class='userLoggedIn'> User: " +
-            name +
-            "<button class='signOut btn btn-outline-light'>Sign Out</button>" +
-            "</div>"
-        )
+
+    }).then(function () {
+        // var nameStorage = localStorage.getItem("name");
+        console.log("SHOULD NOT FIRE FIRST")
+
     }).catch(function (error) {
         var errorCode = error.code;
         var errorMessage = error.message;
