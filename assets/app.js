@@ -208,8 +208,8 @@ $("#start").click(function () {
         formatArray();
         triviaGame.currentQuestion();
     });
-    
-    
+
+
 });
 
 //random comment
@@ -218,7 +218,7 @@ function formatArray() {
     for (var i = 0; i < openTDBArr.length; i++) {
         openTDBArr[i].choices = openTDBArr[i].incorrect_answers;
         openTDBArr[i].answer = openTDBArr[i].correct_answer;
-        
+
         randAnswerPos = Math.floor(Math.random() * 4);
         openTDBArr[i].choices.splice(randAnswerPos, 0, openTDBArr[i].answer);
         console.log(openTDBArr[i]);
