@@ -13,9 +13,9 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!-- FIREBASE -->
-    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
     <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/4d58f93612.js" crossorigin="anonymous"></script>
     <!-- CSS -->
@@ -32,14 +32,10 @@
                 <h1 class="display-3"><i class="far fa-keyboard"></i> Trivia</h1>
                 <h2 class="m-3">Make, Play, Share, and Compete.</h2>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 col-md-6 offset-md-3">
-                <div class="userAuth"><button class="signUp btn btn-outline-light">Sign Up</button>
-                    <span class="exisitngUser"> or Already an Existing User?<button type="button"
-                            class="logIn btn btn-outline-light">Log
-                            In</button></span>
-                </div>
+            <div class="userAuth">
+                <button class="logIn btn-outline-light btn">Log In</button>
+                <div class="logText">or</div>
+                <div class="logText">Click Select Parameters to Begin Creating!</div>
             </div>
         </div>
 
