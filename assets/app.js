@@ -220,7 +220,7 @@ $(document).ready(function () {
 
 //START GAME!
 $("#start ").click(function () {
-    var queryURL = opentdbURL + queryParam ;
+    var queryURL = opentdbURL + queryParam;
     console.log(queryURL);
     //AJAX call to openTDB API, using queryParam to find the specific trivia quiz(object array)
     // send questions to questionsArr = [{question, choices, answer}...{}]
@@ -232,10 +232,16 @@ $("#start ").click(function () {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            openTDBArr = response.results;
-            console.log(openTDBArr);
-            formatArray();
-            triviaGame.currentQuestion();
+            if (response.results.length > 0) {
+                console.log(response.results.length);
+                openTDBArr = response.results;
+                console.log(openTDBArr);
+                formatArray();
+                triviaGame.currentQuestion();
+            }
+            else{
+                document.location.reload(true);
+            }
         });
     }
     if (!difficultyChosen) {
@@ -250,7 +256,6 @@ $("#start ").click(function () {
 });
 
 function formatArray() {
-    console.log(openTDBArr.length);
     for (var i = 0; i < openTDBArr.length; i++) {
         openTDBArr[i].choices = openTDBArr[i].incorrect_answers;
         openTDBArr[i].answer = openTDBArr[i].correct_answer;
