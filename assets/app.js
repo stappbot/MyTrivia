@@ -10,102 +10,83 @@ var config = {
 
 firebase.initializeApp(config);
 
-var database = firebase.database();
-var signUpBtn = $(".signUp");
+var db = firebase.firestore();
+var user;
+
 var logInBtn = $(".logIn");
 var userAuthText = $(".userAuth");
-var user = false;
-var username;
-
-signUpBtn.on("click", function (event) {
-    event.preventDefault();
-    userAuthText.text("");
-    userAuthText.append(
-        "<div class='info'>" +
-        "<form class='enterEmail'>Enter New Email: <input class='userID' type='text'>" +
-        "<form class='enterUsername'>Enter New Username: <input class='newUsername' type='text'>" +
-        "<form class='enterPass'>Enter New Password: <input class='password' type='text'>" +
-        "<input class='submitBtnSU btn-link' type='submit'>" +
-        "</form></form></div>"
-    );
-
-});
 
 logInBtn.on("click", function (event) {
     event.preventDefault();
+    logIn();
+});
+
+$(document).on("click", "#joinButton", function () {
+    console.log("ih")
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            console.log("test")
+        } else {
+            logIn();
+        }
+    })
+});
+
+var logIn = function () {
+
+    var provider = new firebase.auth.GoogleAuthProvider();
     userAuthText.text("");
-    userAuthText.append(
-        "<div class='info'>" +
-        "<form class='enterEmail'>Enter Existing Email: <input class='userID' type='text'>" +
-        "<form class='enterPass'>Enter Existing Password: <input class='password' type='text'>" +
-        "<input class='submitBtnLI btn-link' type='submit'>" +
-        "</form></form></div>"
-    );
-});
+    firebase.auth().signInWithPopup(provider).then(function (result) {
+        var token = result.credential.accessToken;
+        var user = result.user;
 
-$(document).on("click", ".submitBtnSU", function (event) {
-    event.preventDefault();
+        const id = user.uid;
+        const name = user.displayName;
+        const email = user.email
 
-    var userID = $(".userID").val();
-    var password = $(".password").val();
-    username = $(".newUsername").val();
-    console.log(username)
-
-    if ((userID !== "") && (password !== "") && (username !== "")) {
-        firebase.auth().createUserWithEmailAndPassword(userID, password).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(errorCode, errorMessage)
-            // ...
-        });
-    } else {
-        alert("Fill in All Fields to Continue.")
-    }
-});
-
-$(document).on("click", ".submitBtnLI", function (event) {
-    event.preventDefault();
-
-    var userID = $(".userID").val();
-    var password = $(".password").val();
-
-    if ((userID !== "") && (password !== "")) {
-        firebase.auth().signInWithEmailAndPassword(userID, password).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(errorCode, errorMessage)
-            // ...
-        });
-
-    } else {
-        alert("Fill in All Fields to Continue.")
-    }
-})
-
-firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-        user.updateProfile({
-            displayName: username
+        console.log(user)
+        db.collection("users").where("id", "==", id).get().then(function (querySnapshot) {
+            if (querySnapshot.size === 0) {
+                db.collection("users").add({
+                    name: name,
+                    id: id,
+                    email: email
+                }).then(function (localId) {
+                    localStorage.setItem("id", id)
+                    console.log(localStorage.getItem("id"))
+                }).catch(function (error) {
+                    console.log("Error: ", error)
+                })
+            } else {
+                localStorage.setItem("id", id)
+            }
         })
-        $(".enterEmail").text("");
-        $(".enterEmail").append(
-            "<div class='userData'>" +
-            "<h5 class='username'>Username: " +
-            firebase.auth().currentUser.displayName +
-            "</h5>" +
-            "<button class='btn btn-dark signOut'>Sign Out</button>" +
+        userAuthText.append(
+            "<div class='userLoggedIn'> User: " +
+            name +
+            "<button class='signOut btn btn-outline-light'>Sign Out</button>" +
             "</div>"
         )
-        // User is signed in.
-        console.log(user)
-        // ...
-    } else {
-        // User is signed out.
-        // ...
-    }
-});
+    }).catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        var email = error.email;
+        var credential = error.credential;
+
+        console.log(errorCode, errorMessage, email, credential)
+    })
+}
+
+var loggedInUser = function () {
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            console.log(user)
+        } else {
+            window.localStorage.clear();
+        }
+
+    });
+}
 
 $(document).on("click", ".signOut", function (event) {
     event.preventDefault();
@@ -115,7 +96,18 @@ $(document).on("click", ".signOut", function (event) {
     }, function (error) {
         console.error('Sign Out Error', error);
     });
+    loggedInUser();
+})
 
+$("#share").on("click", function () {
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            console.log(user)
+        } else {
+            logIn();
+        }
+
+    });
 })
 //============================This function will populate the leaderboard=============================
 // needs code to get existing leaderboard data from firebase and to save taunt and gif to firebase
@@ -189,7 +181,7 @@ var difficultyChosen = false;
 var openTDBArr = [];
 // var joinButton = null ;
 
-$(document).ready(function(){
+$(document).ready(function () {
     // $("#joinDiv").remove();
 });
 
@@ -218,7 +210,7 @@ $("#start").click(function () {
     }
     if (!categoryChosen) {
         console.log("Choose a category");
-        $("#categoryDiv").append("Please choose a category");
+        $("#categoriesDiv").append("Please choose a category");
     }
     if (!questionsLimitChosen) {
         $("#number-input").append("Please enter a number of questions");

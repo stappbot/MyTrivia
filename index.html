@@ -13,25 +13,34 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!-- FIREBASE -->
-    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
     <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/4d58f93612.js" crossorigin="anonymous"></script>
     <!-- CSS -->
     <link rel="stylesheet" href="assets/style.css" />
 </head>
 
+<<<<<<< HEAD
 <body class="text-white"
     style="background-attachment: fixed; background-repeat: no-repeat; background-image: url(assets/question-bg.jpeg);">
 
     <!-- possibly move this functionality to after quiz is taken such as join feature -->
     <div class="container text-center m-4 py-5" id="main">
+=======
+<!-- possibly move this functionality to after quiz is taken such as join featureW -->
+
+<body class="text-white"
+    style="background-attachment: fixed; background-repeat: no-repeat; background-image: url(assets/question-bg.jpeg);">
+    <div class="container text-center m-5" id="main">
+>>>>>>> 060ac9c207a86b8fd5069d83b35488317e21eb4d
         <div class="row">
             <div class="col-sm-12">
-                <h1><i class="far fa-keyboard"></i> Trivia</h1>
-                <h2>Make, Play, Share, and Compete.</h2>
+                <h1 class="display-3"><i class="far fa-keyboard"></i> Trivia</h1>
+                <h2 class="m-3">Make, Play, Share, and Compete.</h2>
             </div>
+<<<<<<< HEAD
 
             <!-- functionality moved to after user takes quiz -->
             <!-- <div class="userAuth"><button class="signUp btn-link btn">Sign Up</button>
@@ -43,22 +52,34 @@
         <!--start, share, reset buttons-->
         <div class="container text-white text-center m-4 py-4 row">
             <div class="col-sm-12 col-md-6" id="button-display">
+=======
+            <div class="userAuth">
+                <button class="logIn btn-outline-light btn">Log In</button>
+                <div class="logText">or</div>
+                <div class="logText">Click Select Parameters to Begin Creating!</div>
+            </div>
+        </div>
+
+        <div class="text-white text-center m-3 py-2 row">
+            <div class="col-sm-12 col-md-6 offset-md-3" id="button-display">
+>>>>>>> 060ac9c207a86b8fd5069d83b35488317e21eb4d
                 <button type="button" class="btn btn-outline-light" id="start">
                     Start
                 </button>
                 <button type="button" class="btn btn-outline-light" id="share">
                     Share
                 </button>
-
                 <button type="button" class="btn btn-outline-light" id="reset">
-                    <i class="fas fa-trash-alt"></i> Reset
+                    Reset
                 </button>
             </div>
         </div>
 
+
         <!-- container for categories -->
-        <div class="container text-white text-center m-4 py-4 row" id="categoriesDiv">
-            <div class="col-sm-12 col-md-6" id="button-display">
+        <div class="container text-white text-center m-3 pt-5 pb-2 row" id="categoriesDiv">
+            <div class="col-sm-12 col-md-6 offset-md-1" id="button-display">
+                <h4>Select a Category</h4>
                 <button type="button" class="btn btn-outline-light categoryButton" id="Animals" data-category="27">
                     Animals
                 </button>
@@ -82,8 +103,9 @@
         </div>
 
         <!-- container for difficulty -->
-        <div class="container text-white text-center m-4 py-4 row" id="difficultyDiv">
-            <div class="col-sm-12 col-md-6" id="button-display">
+        <div class="container text-white text-center m-3 py-2 row" id="difficultyDiv">
+            <div class="col-sm-12 col-md-6 offset-md-1" id="button-display">
+                <h4>Select a Difficulty Level</h4>
                 <button type="button" class="btn btn-outline-light difficultyButton" data-difficulty="easy">
                     Easy
                 </button>
@@ -100,20 +122,30 @@
             </div>
         </div>
 
-        <!-- container for number of questions -->
-        <div class="container text-white text-center m-4 py-4 row" id="number-input">
-            <p> How many questions for your quiz?</p>
-            <input class="ml-3 mr-3" type="text" id="numQuestions-input" style="opacity: .5;"
-                placeholder="Enter a number">
-            <button type="button" class="btn btn-outline-light" id="numQuestionsButton"> GO! </button>
+        <!-- container for number of questions-->
+        <div class="container text-white text-center m-3 py-4 row" id="number-input">
+            <div class="col-sm-12 col-md-6 offset-md-1">
+                <h4> How many questions for your quiz?</h4>
+                <input class="ml-3 mr-3" type="text" id="numQuestions-input" style="opacity: .5;"
+                    placeholder="Enter a number">
+                <button type="button" class="btn btn-outline-light" id="numQuestionsButton"> GO! </button>
+            </div>
         </div>
 
+<<<<<<< HEAD
         <!-- this feature moved until after user completes quiz-->
         <!-- find fucntion addJoin in assets/app.js-->
 
         <!-- <div class="container text-white text-center m-4 py-4" id="joinDiv">
+=======
+        <div class="container text-white text-center m-3 py-4">
+            =======
+
+
+
+>>>>>>> 060ac9c207a86b8fd5069d83b35488317e21eb4d
             <div class="row px-4">
-                <div class="col-sm-12 col-md-6" id="options">
+                <div class="col-sm-12 col-md-6 offset-md-1" id="options">
                     <p>
                         Click
                         <span><button type="button" class="btn btn-outline-light" id="join">
@@ -124,10 +156,10 @@
                     </p>
                 </div>
             </div>
-        </div> -->
-
-        <!-- APP.JS-->
-        <script src="assets/app.js"></script>
+        </div>
+    </div> <!-- APP.JS-->
+    <script src="assets/app.js"></script>
+    =======
 </body>
 
 </html>
