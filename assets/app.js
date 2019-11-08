@@ -220,8 +220,8 @@ $(document).ready(function () {
 
 //START GAME!
 $("#start ").click(function () {
-
-
+    var queryURL = opentdbURL + queryParam ;
+    console.log(queryURL);
     //AJAX call to openTDB API, using queryParam to find the specific trivia quiz(object array)
     // send questions to questionsArr = [{question, choices, answer}...{}]
     // push incorrect answers into questionsArr[i].choices and then splice the correct answer into it at a random position
@@ -229,7 +229,7 @@ $("#start ").click(function () {
     if (difficultyChosen && questionsLimitChosen && categoryChosen) {
         $("#start").remove();
         $.ajax({
-            url: opentdbURL + queryParam,
+            url: queryURL,
             method: "GET"
         }).then(function (response) {
             openTDBArr = response.results;
@@ -242,7 +242,6 @@ $("#start ").click(function () {
         $("#difficultyDiv").append("Please choose difficulty");
     }
     if (!categoryChosen) {
-        console.log("Choose a category");
         $("#categoriesDiv").append("Please choose a category");
     }
     if (!questionsLimitChosen) {
@@ -307,7 +306,7 @@ $(document).on("click", ".categoryButton", function () {
 
 //Pre-game: User chooses difficulty for trivia questions-- easy/med/hard (or any)
 // modifies queryParam accordingly
-$(".difficultyButton").on("click", function () {
+$(document).on("click", ".difficultyButton", function () {
     $("#difficultyDiv").remove();
     if ($(this).attr("data-difficulty") == "any") {
         queryParam += "";
@@ -323,7 +322,7 @@ $(".difficultyButton").on("click", function () {
 //Pre-game: User enters desired number of quesitons
 // modifies queryParam accordingly
 $("#numQuestionsButton").on("click", function () {
-    questionsLimit = $("#numQuestions-input").val();
+    questionsLimit = $("#numQuestions-input").val().trim();
     $("#number-input").remove();
     questionsLimitChosen = true;
     queryParam += "&amount=" + questionsLimit;
