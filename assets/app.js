@@ -42,6 +42,7 @@ var logIn = function () {
 
         const id = user.uid;
         const name = user.displayName;
+        const email = user.email
 
         console.log(user)
         db.collection("users").where("id", "==", id).get().then(function (querySnapshot) {
@@ -49,6 +50,7 @@ var logIn = function () {
                 db.collection("users").add({
                     name: name,
                     id: id,
+                    email: email
                 }).then(function (localId) {
                     localStorage.setItem("id", id)
                     console.log(localStorage.getItem("id"))
@@ -61,7 +63,7 @@ var logIn = function () {
         })
         userAuthText.append(
             "<div class='userLoggedIn'> User: " +
-            user.displayName +
+            name +
             "<button class='signOut btn btn-outline-light'>Sign Out</button>" +
             "</div>"
         )
