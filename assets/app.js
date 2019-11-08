@@ -228,46 +228,52 @@ $(document).ready(function() {
 });
 
 //START GAME!
-$("#start ").click(function() {
-  //AJAX call to openTDB API, using queryParam to find the specific trivia quiz(object array)
-  // send questions to questionsArr = [{question, choices, answer}...{}]
-  // push incorrect answers into questionsArr[i].choices and then splice the correct answer into it at a random position
-  // this way the correct answer will not be in the same position for each question
-  if (difficultyChosen && questionsLimitChosen && categoryChosen) {
-    $("#start").remove();
-    $.ajax({
-      url: opentdbURL + queryParam,
-      method: "GET"
-    }).then(function(response) {
-      openTDBArr = response.results;
-      console.log(openTDBArr);
-      formatArray();
-      triviaGame.currentQuestion();
-    });
-  }
-  if (!difficultyChosen) {
-    $("#difficultyDiv").append("Please choose difficulty");
-  }
-  if (!categoryChosen) {
-    console.log("Choose a category");
-    $("#categoriesDiv").append("Please choose a category");
-  }
-  if (!questionsLimitChosen) {
-    $("#number-input").append("Please enter a number of questions");
-  }
+$("#start ").click(function () {
+    var queryURL = opentdbURL + queryParam;
+    console.log(queryURL);
+    //AJAX call to openTDB API, using queryParam to find the specific trivia quiz(object array)
+    // send questions to questionsArr = [{question, choices, answer}...{}]
+    // push incorrect answers into questionsArr[i].choices and then splice the correct answer into it at a random position
+    // this way the correct answer will not be in the same position for each question
+    if (difficultyChosen && questionsLimitChosen && categoryChosen) {
+        $("#start").remove();
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            if (response.results.length > 0) {
+                console.log(response.results.length);
+                openTDBArr = response.results;
+                console.log(openTDBArr);
+                formatArray();
+                triviaGame.currentQuestion();
+            }
+            else{
+                document.location.reload(true);
+            }
+        });
+    }
+    if (!difficultyChosen) {
+        $("#difficultyDiv").append("Please choose difficulty");
+    }
+    if (!categoryChosen) {
+        $("#categoriesDiv").append("Please choose a category");
+    }
+    if (!questionsLimitChosen) {
+        $("#number-input").append("Please enter a number of questions");
+    }
 });
 
 function formatArray() {
-  console.log(openTDBArr.length);
-  for (var i = 0; i < openTDBArr.length; i++) {
-    openTDBArr[i].choices = openTDBArr[i].incorrect_answers;
-    openTDBArr[i].answer = openTDBArr[i].correct_answer;
+    for (var i = 0; i < openTDBArr.length; i++) {
+        openTDBArr[i].choices = openTDBArr[i].incorrect_answers;
+        openTDBArr[i].answer = openTDBArr[i].correct_answer;
 
-    randAnswerPos = Math.floor(Math.random() * 4);
-    openTDBArr[i].choices.splice(randAnswerPos, 0, openTDBArr[i].answer);
-    console.log(openTDBArr[i]);
-  }
-  questionsArr = openTDBArr;
+        randAnswerPos = Math.floor(Math.random() * 4);
+        openTDBArr[i].choices.splice(randAnswerPos, 0, openTDBArr[i].answer);
+        console.log(openTDBArr[i]);
+    }
+    questionsArr = openTDBArr;
 }
 
 function saveQuiz(score) {
@@ -316,26 +322,27 @@ $(document).on("click", ".categoryButton", function() {
 
 //Pre-game: User chooses difficulty for trivia questions-- easy/med/hard (or any)
 // modifies queryParam accordingly
-$(".difficultyButton").on("click", function() {
-  $("#difficultyDiv").remove();
-  if ($(this).attr("data-difficulty") == "any") {
-    queryParam += "";
-  } else {
-    difficulty = $(this).attr("data-difficulty");
-    queryParam += "&difficulty=" + difficulty;
-  }
-  difficultyChosen = true;
-  console.log(queryParam);
+$(document).on("click", ".difficultyButton", function () {
+    $("#difficultyDiv").remove();
+    if ($(this).attr("data-difficulty") == "any") {
+        queryParam += "";
+    }
+    else {
+        difficulty = $(this).attr("data-difficulty");
+        queryParam += "&difficulty=" + difficulty;
+    }
+    difficultyChosen = true;
+    console.log(queryParam);
 });
 
 //Pre-game: User enters desired number of quesitons
 // modifies queryParam accordingly
-$("#numQuestionsButton").on("click", function() {
-  questionsLimit = $("#numQuestions-input").val();
-  $("#number-input").remove();
-  questionsLimitChosen = true;
-  queryParam += "&amount=" + questionsLimit;
-  console.log(queryParam);
+$("#numQuestionsButton").on("click", function () {
+    questionsLimit = $("#numQuestions-input").val().trim();
+    $("#number-input").remove();
+    questionsLimitChosen = true;
+    queryParam += "&amount=" + questionsLimit;
+    console.log(queryParam);
 });
 
 //HARD CODED QUIZ, FOR TESTING PURPOSES ONLY, REMOVE BEFORE SUBMITTING//
