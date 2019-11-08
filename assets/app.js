@@ -219,7 +219,7 @@ $(document).ready(function () {
 });
 
 //START GAME!
-$("#start").click(function () {
+$("#start ").click(function () {
 
 
     //AJAX call to openTDB API, using queryParam to find the specific trivia quiz(object array)
@@ -299,23 +299,25 @@ $(document).on("click", ".choiceButton", function (event) {
 // modifies queryParam accordingly
 $(document).on("click", ".categoryButton", function () {
     var category = $(this).attr("data-category");
-    queryParam = "&category=" + category;
+    queryParam += "&category=" + category;
     $("#categoriesDiv").remove();
     categoryChosen = true;
+    console.log(queryParam);
 });
 
 //Pre-game: User chooses difficulty for trivia questions-- easy/med/hard (or any)
 // modifies queryParam accordingly
 $(".difficultyButton").on("click", function () {
     $("#difficultyDiv").remove();
-    if ($(this).attr("data-difficulty") === "any") {
-        return;
+    if ($(this).attr("data-difficulty") == "any") {
+        queryParam += "";
     }
     else {
         difficulty = $(this).attr("data-difficulty");
         queryParam += "&difficulty=" + difficulty;
     }
     difficultyChosen = true;
+    console.log(queryParam);
 });
 
 //Pre-game: User enters desired number of quesitons
@@ -388,7 +390,7 @@ function addSignupLogin() {
     var loginSpan = $("<span>");
     loginSpan.attr("class", "exisitingUser")
     signupDiv.attr("class", "userAuth");
-    loginSpan.html("or Already and Existing User");
+    loginSpan.html("or Already an Existing User");
     signupButton.attr("class", "signUp btn-link btn");
     loginButton.attr("class", "logIn btn-link btn");
     signupButton.text("Share");
