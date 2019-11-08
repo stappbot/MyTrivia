@@ -333,7 +333,7 @@ function addJoin(){
     joinDiv.attr("class" , "container text-white text-center m-4 py-4 row px-4 col-sm-12 col-md-6") ;
     joinDiv.attr("id" , "options ") ;
     joinDiv.append("<p> Join to play previously created game and challenge other players </p>" );
-    joinDiv.append(joinButton);
+    joinDiv.append(joinButton) ;
     $("#main").append(joinDiv) ;
 }
 
@@ -348,8 +348,10 @@ var triviaGame = {
 
     //30s Timer for each question  
     gameTimer: function () {
-        $("#ticker").html(triviaGame.timeLeft + " seconds remaining");
-        triviaGame.timeLeft--;
+        var ticker = $("<div>");
+        ticker.html(triviaGame.timeLeft + " seconds remaining");
+        $("#main").prepend(ticker) ;
+        triviaGame.timeLeft-- ;
         if (triviaGame.timeLeft <= 0) {
             triviaGame.outOfTime();
         }
@@ -455,9 +457,9 @@ var triviaGame = {
 
     //resets the current game
     resetGame: function () {
-        correctAnswers = 0;
-        incorrectAnswers = 0;
-        unansweredQs = 0;
+        triviaGame.correctAnswers = 0;
+        triviaGame.incorrectAnswers = 0;
+        triviaGame.unansweredQs = 0;
         triviaGame.resetTimer();
         triviaGame.numberQuestion = 0;
         triviaGame.currentQuestion();
