@@ -23,37 +23,45 @@
 </head>
 
 <!-- possibly move this functionality to after quiz is taken such as join featureW -->
+
 <body class="text-white"
     style="background-attachment: fixed; background-repeat: no-repeat; background-image: url(assets/question-bg.jpeg);">
-    <div class="container text-center m-4 py-5" id="main">
+    <div class="container text-center m-5" id="main">
         <div class="row">
             <div class="col-sm-12">
-                <h1><i class="far fa-keyboard"></i> Trivia</h1>
-                <h2>Make, Play, Share, and Compete.</h2>
-            </div>
-            <div class="userAuth"><button class="signUp btn-link btn">Sign Up</button>
-                <span class="exisitngUser"> or Already an Existing User?<button class="logIn btn-link btn">Log
-                        In</button></span>
+                <h1 class="display-3"><i class="far fa-keyboard"></i> Trivia</h1>
+                <h2 class="m-3">Make, Play, Share, and Compete.</h2>
             </div>
         </div>
-        <div class="container text-white text-center m-4 py-4 row">
-            <div class="col-sm-12 col-md-6" id="button-display">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 offset-md-3">
+                <div class="userAuth"><button class="signUp btn btn-outline-light">Sign Up</button>
+                    <span class="exisitngUser"> or Already an Existing User?<button type="button"
+                            class="logIn btn btn-outline-light">Log
+                            In</button></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-white text-center m-3 py-2 row">
+            <div class="col-sm-12 col-md-6 offset-md-3" id="button-display">
                 <button type="button" class="btn btn-outline-light" id="start">
                     Start
                 </button>
                 <button type="button" class="btn btn-outline-light" id="share">
                     Share
                 </button>
-
                 <button type="button" class="btn btn-outline-light" id="reset">
-                    <i class="fas fa-trash-alt"></i> Reset
+                    Reset
                 </button>
             </div>
         </div>
 
+
         <!-- container for categories -->
-        <div class="container text-white text-center m-4 py-4 row" id="categoriesDiv">
-            <div class="col-sm-12 col-md-6" id="button-display">
+        <div class="container text-white text-center m-3 pt-5 pb-2 row" id="categoriesDiv">
+            <div class="col-sm-12 col-md-6 offset-md-1" id="button-display">
+                <h4>Select a Category</h4>
                 <button type="button" class="btn btn-outline-light categoryButton" id="Animals" data-category="27">
                     Animals
                 </button>
@@ -77,8 +85,9 @@
         </div>
 
         <!-- container for difficulty -->
-        <div class="container text-white text-center m-4 py-4 row" id="difficultyDiv">
-            <div class="col-sm-12 col-md-6" id="button-display">
+        <div class="container text-white text-center m-3 py-2 row" id="difficultyDiv">
+            <div class="col-sm-12 col-md-6 offset-md-1" id="button-display">
+                <h4>Select a Difficulty Level</h4>
                 <button type="button" class="btn btn-outline-light difficultyButton" data-difficulty="easy">
                     Easy
                 </button>
@@ -95,19 +104,23 @@
             </div>
         </div>
 
-        <!-- container for number of questions -->
-        <div class="container text-white text-center m-4 py-4 row" id="number-input">
-            <p> How many questions for your quiz?</p>
-            <input class="ml-3 mr-3" type="text" id="numQuestions-input" style="opacity: .5;"
-                placeholder="Enter a number">
-            <button type="button" class="btn btn-outline-light" id="numQuestionsButton"> GO! </button>
+        <!-- container for number of questions-->
+        <div class="container text-white text-center m-3 py-4 row" id="number-input">
+            <div class="col-sm-12 col-md-6 offset-md-1">
+                <h4> How many questions for your quiz?</h4>
+                <input class="ml-3 mr-3" type="text" id="numQuestions-input" style="opacity: .5;"
+                    placeholder="Enter a number">
+                <button type="button" class="btn btn-outline-light" id="numQuestionsButton"> GO! </button>
+            </div>
         </div>
 
-        <!-- this feature moved until after user completes quiz-->
-        <!-- find fucntion addJoin in assets/app.js-->
-        <!-- <div class="container text-white text-center m-4 py-4" id="joinDiv">
+        <div class="container text-white text-center m-3 py-4">
+            =======
+
+
+
             <div class="row px-4">
-                <div class="col-sm-12 col-md-6" id="options">
+                <div class="col-sm-12 col-md-6 offset-md-1" id="options">
                     <p>
                         Click
                         <span><button type="button" class="btn btn-outline-light" id="join">
@@ -118,10 +131,10 @@
                     </p>
                 </div>
             </div>
-        </div> -->
-
-        <!-- APP.JS-->
-        <script src="assets/app.js"></script>
+        </div>
+    </div> <!-- APP.JS-->
+    <script src="assets/app.js"></script>
+    =======
 </body>
 
 </html>

@@ -189,7 +189,7 @@ var difficultyChosen = false;
 var openTDBArr = [];
 // var joinButton = null ;
 
-$(document).ready(function(){
+$(document).ready(function () {
     // $("#joinDiv").remove();
 });
 
@@ -324,17 +324,17 @@ $("#numQuestionsButton").on("click", function () {
 //     choices: ["Guitar", "Piano", "Violin", "Drums"],
 //     answer: "Piano"}]
 
-function addJoin(){
-    var joinDiv = $("<div>") ;
-    joinButton = $("<button>") ;
-    joinButton.attr("class" , "btn btn-outline-light") ;
-    joinButton.attr("id" , "joinButton options") ;
-    joinButton.text("Join") ;
-    joinDiv.attr("class" , "container text-white text-center m-4 py-4 row px-4 col-sm-12 col-md-6") ;
-    joinDiv.attr("id" , "options ") ;
-    joinDiv.append("<p> Join to play previously created game and challenge other players </p>" );
+function addJoin() {
+    var joinDiv = $("<div>");
+    joinButton = $("<button>");
+    joinButton.attr("class", "btn btn-outline-light");
+    joinButton.attr("id", "joinButton options");
+    joinButton.text("Join");
+    joinDiv.attr("class", "container text-white text-center m-4 py-4 row px-4 col-sm-12 col-md-6");
+    joinDiv.attr("id", "options ");
+    joinDiv.append("<p> Join to play previously created game and challenge other players </p>");
     joinDiv.append(joinButton);
-    $("#main").append(joinDiv) ;
+    $("#main").append(joinDiv);
 }
 
 // functions for the current trivia game
