@@ -22,20 +22,25 @@
     <link rel="stylesheet" href="assets/style.css" />
 </head>
 
-<!-- possibly move this functionality to after quiz is taken such as join featureW -->
 <body class="text-white"
     style="background-attachment: fixed; background-repeat: no-repeat; background-image: url(assets/question-bg.jpeg);">
+
+    <!-- possibly move this functionality to after quiz is taken such as join feature -->
     <div class="container text-center m-4 py-5" id="main">
         <div class="row">
             <div class="col-sm-12">
                 <h1><i class="far fa-keyboard"></i> Trivia</h1>
                 <h2>Make, Play, Share, and Compete.</h2>
             </div>
-            <div class="userAuth"><button class="signUp btn-link btn">Sign Up</button>
+
+            <!-- functionality moved to after user takes quiz -->
+            <!-- <div class="userAuth"><button class="signUp btn-link btn">Sign Up</button>
                 <span class="exisitngUser"> or Already an Existing User?<button class="logIn btn-link btn">Log
                         In</button></span>
             </div>
-        </div>
+        </div> -->
+
+        <!--start, share, reset buttons-->
         <div class="container text-white text-center m-4 py-4 row">
             <div class="col-sm-12 col-md-6" id="button-display">
                 <button type="button" class="btn btn-outline-light" id="start">
@@ -105,6 +110,7 @@
 
         <!-- this feature moved until after user completes quiz-->
         <!-- find fucntion addJoin in assets/app.js-->
+
         <!-- <div class="container text-white text-center m-4 py-4" id="joinDiv">
             <div class="row px-4">
                 <div class="col-sm-12 col-md-6" id="options">

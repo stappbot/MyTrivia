@@ -218,7 +218,7 @@ $("#start").click(function () {
     }
     if (!categoryChosen) {
         console.log("Choose a category");
-        $("categoryDiv").append("Please choose a category");
+        $("#categoryDiv").append("Please choose a category");
     }
     if (!questionsLimitChosen) {
         $("#number-input").append("Please enter a number of questions");
@@ -337,6 +337,24 @@ function addJoin(){
     $("#main").append(joinDiv) ;
 }
 
+function addSignupLogin(){
+    var signupDiv = $("<div>") ;
+    var signupButton = $("<button>") ;
+    var loginButton = $("<button>") ;
+    var loginSpan = $("<span>") ;
+    loginSpan.attr( "class" , "exisitingUser")
+    signupDiv.attr( "class" , "userAuth") ;
+    loginSpan.html("or Already and Existing User") ;
+    signupButton.attr("class" , "signUp btn-link btn") ;
+    loginButton.attr("class" , "logIn btn-link btn") ;
+    signupButton.text("Share") ;
+    loginButton.text("Log In") ;
+    signupDiv.append(signupButton);
+    loginSpan.append(loginButton);
+    signupDiv.append(loginSpan);
+    $("#main").append(signupDiv);
+}
+
 // functions for the current trivia game
 var triviaGame = {
     triviaQuestions: questionsArr,
@@ -348,9 +366,9 @@ var triviaGame = {
 
     //30s Timer for each question  
     gameTimer: function () {
-        var ticker = $("<div>");
-        ticker.html(triviaGame.timeLeft + " seconds remaining");
-        $("#main").prepend(ticker) ;
+        // var ticker = $("<div>");
+        // ticker.html(triviaGame.timeLeft + " seconds remaining");
+        // $("#main").prepend(ticker) ;
         triviaGame.timeLeft-- ;
         if (triviaGame.timeLeft <= 0) {
             triviaGame.outOfTime();
@@ -451,6 +469,7 @@ var triviaGame = {
             "<p> Replay this Quiz! </p>" + "<button class='btn btn-outline-light' id= 'reset'>" + "Go!" + "</button>"
         );
         addJoin();
+        addSignupLogin();
         // var joinDiv = $("#joinDiv");
         // $("#main").append(joinDiv);
     },
