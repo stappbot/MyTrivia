@@ -27,3 +27,7 @@ h2,
 .userLoggedIn{
     font-size: 18px;
 }
+
+.btn{
+    margin-top: 5px;
+}
