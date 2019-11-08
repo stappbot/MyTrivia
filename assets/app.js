@@ -186,7 +186,7 @@ $(document).ready(function () {
 });
 
 //START GAME!
-$("#start").click(function () {
+$("#start ").click(function () {
 
 
     //AJAX call to openTDB API, using queryParam to find the specific trivia quiz(object array)
@@ -247,23 +247,25 @@ $(document).on("click", ".choiceButton", function (event) {
 // modifies queryParam accordingly
 $(document).on("click", ".categoryButton", function () {
     var category = $(this).attr("data-category");
-    queryParam = "&category=" + category;
+    queryParam += "&category=" + category;
     $("#categoriesDiv").remove();
     categoryChosen = true;
+    console.log(queryParam);
 });
 
 //Pre-game: User chooses difficulty for trivia questions-- easy/med/hard (or any)
 // modifies queryParam accordingly
 $(".difficultyButton").on("click", function () {
     $("#difficultyDiv").remove();
-    if ($(this).attr("data-difficulty") === "any") {
-        return;
+    if ($(this).attr("data-difficulty") == "any") {
+        queryParam += "";
     }
     else {
         difficulty = $(this).attr("data-difficulty");
         queryParam += "&difficulty=" + difficulty;
     }
     difficultyChosen = true;
+    console.log(queryParam);
 });
 
 //Pre-game: User enters desired number of quesitons
@@ -316,31 +318,31 @@ $("#numQuestionsButton").on("click", function () {
 //     choices: ["Guitar", "Piano", "Violin", "Drums"],
 //     answer: "Piano"}]
 
-function addJoin(){
-    var joinDiv = $("<div>") ;
-    joinButton = $("<button>") ;
-    joinButton.attr("class" , "btn btn-outline-light") ;
-    joinButton.attr("id" , "joinButton options") ;
-    joinButton.text("Join") ;
-    joinDiv.attr("class" , "container text-white text-center m-4 py-4 row px-4 col-sm-12 col-md-6") ;
-    joinDiv.attr("id" , "options ") ;
-    joinDiv.append("<p> Join to play previously created game and challenge other players </p>" );
-    joinDiv.append(joinButton) ;
-    $("#main").append(joinDiv) ;
+function addJoin() {
+    var joinDiv = $("<div>");
+    joinButton = $("<button>");
+    joinButton.attr("class", "btn btn-outline-light");
+    joinButton.attr("id", "joinButton options");
+    joinButton.text("Join");
+    joinDiv.attr("class", "container text-white text-center m-4 py-4 row px-4 col-sm-12 col-md-6");
+    joinDiv.attr("id", "options ");
+    joinDiv.append("<p> Join to play previously created game and challenge other players </p>");
+    joinDiv.append(joinButton);
+    $("#main").append(joinDiv);
 }
 
-function addSignupLogin(){
-    var signupDiv = $("<div>") ;
-    var signupButton = $("<button>") ;
-    var loginButton = $("<button>") ;
-    var loginSpan = $("<span>") ;
-    loginSpan.attr( "class" , "exisitingUser")
-    signupDiv.attr( "class" , "userAuth") ;
-    loginSpan.html("or Already and Existing User") ;
-    signupButton.attr("class" , "signUp btn-link btn") ;
-    loginButton.attr("class" , "logIn btn-link btn") ;
-    signupButton.text("Share") ;
-    loginButton.text("Log In") ;
+function addSignupLogin() {
+    var signupDiv = $("<div>");
+    var signupButton = $("<button>");
+    var loginButton = $("<button>");
+    var loginSpan = $("<span>");
+    loginSpan.attr("class", "exisitingUser")
+    signupDiv.attr("class", "userAuth");
+    loginSpan.html("or Already an Existing User");
+    signupButton.attr("class", "signUp btn-link btn");
+    loginButton.attr("class", "logIn btn-link btn");
+    signupButton.text("Share");
+    loginButton.text("Log In");
     signupDiv.append(signupButton);
     loginSpan.append(loginButton);
     signupDiv.append(loginSpan);
@@ -361,7 +363,7 @@ var triviaGame = {
         // var ticker = $("<div>");
         // ticker.html(triviaGame.timeLeft + " seconds remaining");
         // $("#main").prepend(ticker) ;
-        triviaGame.timeLeft-- ;
+        triviaGame.timeLeft--;
         if (triviaGame.timeLeft <= 0) {
             triviaGame.outOfTime();
         }
