@@ -10,7 +10,7 @@ h2,
     margin-left: 10px;
 }
 
-.userAuth{
+.userAuth, #options{
     margin: 0 auto;
 }
 
@@ -32,6 +32,14 @@ h2,
     margin-top: 5px;
 }
 
+.btn2{
+    margin: 5px;
+}
+
 #options{
     text-align: center;
+}
+
+.row{
+    display: inherit;
 }
