@@ -237,6 +237,7 @@ $("#start ").click(function () {
     // this way the correct answer will not be in the same position for each question
     if (difficultyChosen && questionsLimitChosen && categoryChosen) {
         $("#start").remove();
+        $("#instructions").remove();
         $.ajax({
             url: queryURL,
             method: "GET"
