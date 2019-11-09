@@ -10,7 +10,7 @@ h2,
     margin-left: 10px;
 }
 
-.userAuth{
+.userAuth, #options{
     margin: 0 auto;
 }
 
@@ -30,4 +30,28 @@ h2,
 
 .btn{
     margin-top: 5px;
+}
+
+.btn2{
+    margin: 5px;
+}
+
+#options{
+    text-align: center;
+}
+
+.row{
+    display: inherit;
+}
+
+.savedQuizzesTable{
+    border: 1px solid #ffffff;
+    min-width: 300px;
+    max-width: fit-content;
+    display: none;
+    margin: 0 auto;
+}
+
+.titleRow{
+    border-bottom: .5px solid #ffffff;
 }
