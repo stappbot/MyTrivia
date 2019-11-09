@@ -32,6 +32,7 @@ function userLog() {
                 "<button class='signOut btn btn-outline-light'>Sign Out</button>" +
                 "</div>"
             );
+            //$(".savedQuizzesTable").css("display", "table");
         } else {
         }
     });
@@ -42,16 +43,10 @@ $(document).on("click", "#joinButton", function () {
     firebase.auth().onAuthStateChanged(function (user) {
         console.log(user)
         if (!user) {
-            logIn()
             $("#options").text("");
-            $("#options").append(
-                "<div class='userLoggedIn'> User: " +
-                user.displayName +
-                "<button class='signOut btn btn-outline-light'>Sign Out</button>" +
-                "</div>"
-            )
+            logIn();
         }
-    }) 
+    })
 })
 
 
@@ -91,6 +86,7 @@ var logIn = function () {
                             .then(function (localId) {
                                 console.log("adding new user");
                                 localStorage.setItem("id", id);
+                                localStorage.setItem("name", name)
                                 console.log(localStorage.getItem("id"));
                             })
                             .catch(function (error) {
@@ -99,6 +95,7 @@ var logIn = function () {
                     } else {
                         console.log("logging in existing user");
                         localStorage.setItem("id", id);
+                        localStorage.setItem("name", name)
                     }
                 });
         })
@@ -160,23 +157,23 @@ function displayGif() {
         .val()
         .trim();
 
-    var queryURL =
+    var queryURLGif =
         "https://api.giphy.com/v1/gifs/search?&q=" +
         taunt +
         "&limit=1&api_key=lN4gd7m0eEUwZ0iyDF5vSI6jCUW5ToiC";
 
     // AJAX call for the gif on the leaderboard
     $.ajax({
-        url: queryURL,
+        url: queryURLGif,
         method: "GET"
     }).then(function (response) {
+        console.log(response);
         //set variable to hold data object
         var resultsObj = response.data;
 
         //create tds for taunt and gif
-        var rankDisplay = $("<td>").text(1); //score from firebase?
-        var userDisplay = $("<td>").text("username"); //username from inial user input
-        var scoreDisplay = $("<td>").text(25); //score from quiz
+        var userDisplay = $("<td>").text(localStorage.getItem("name")); //username from inial user input
+        var scoreDisplay = $("<td>").text(triviaGame.correctAnswers); //score from quiz
         var tauntDisplay = $("<td>").text(
             $("#taunt-input")
                 .val()
@@ -195,17 +192,16 @@ function displayGif() {
         gifDisplay.append(gifImg);
 
         //appends new row to table
-        $("#leaderboard").append(rankDisplay);
-        $("#leaderboard").append(userDisplay);
-        $("#leaderboard").append(scoreDisplay);
-        $("#leaderboard").append(tauntDisplay);
-        $("#leaderboard").append(gifDisplay);
+        $("table").append(userDisplay);
+        $("table").append(scoreDisplay);
+        $("table").append(tauntDisplay);
+        $("table").append(gifDisplay);
     });
-}
+};
 //===================================================================================================
 
 // when quiz is over, user types in taunt and hits button to populate the leaderboard
-$("#taunt-button").on("click", function () {
+$(document).on("click", "#taunt-button", function () {
     event.preventDefault();
 
     displayGif();
@@ -436,7 +432,7 @@ function addJoin() {
             var joinDiv = $("<div>");
             joinDiv.attr(
                 "class",
-                "container text-white text-center m-4 py-4 row px-4 col-sm-12 col-md-12"
+                "container text-white text-center py-4 row px-4 col-sm-12 col-md-12"
             );
             joinDiv.attr("id", "options");
             joinDiv.append(
@@ -450,25 +446,6 @@ function addJoin() {
     });
 
 }
-
-
-// function addSignupLogin() {
-//     var signupDiv = $("<div>");
-//     var signupButton = $("<button>");
-//     var loginButton = $("<button>");
-//     var loginSpan = $("<span>");
-//     loginSpan.attr("class", "exisitingUser");
-//     signupDiv.attr("class", "userAuth");
-//     loginSpan.html("or Already an Existing User");
-//     signupButton.attr("class", "signUp btn-link btn");
-//     loginButton.attr("class", "logIn btn-link btn");
-//     signupButton.text("Share");
-//     loginButton.text("Log In");
-//     signupDiv.append(signupButton);
-//     loginSpan.append(loginButton);
-//     signupDiv.append(loginSpan);
-//     $("#main").append(signupDiv);
-// }
 
 // functions for the current trivia game
 var triviaGame = {
@@ -578,6 +555,27 @@ var triviaGame = {
         }
     },
 
+    displayLeaderboard: function () {
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                console.log(user);
+                leaderDiv = $("<div class= jumbotron-fluid'></div>");
+                $("#main").append(leaderDiv);
+                leaderDiv.append("<h1 class='text-white text-center'>Quiz History</h1>");
+                leaderDiv.append("<input id='taunt-input' class='form-control' type='text' placeholder='Throw some shade...' style='opacity: .5'>");
+                leaderDiv.append("<button type='button' class='btn btn-outline-light m-3' id='taunt-button'>Taunt</button>");
+                leaderDiv.append("<table class='table text-white'>");
+                $("table").append("<thead></thead>");
+                $("thead").append("<tr></tr>");
+                $("tr").append("<th scope='col'>Username</th>");
+                $("tr").append("<th scope='col'>Score</th>");
+                $("tr").append("<th scope='col'></th>");
+                $("tr").append("<th scope='col'></th>");
+                $("table").append("<tbody id=leaderboard-table'></tbody>");
+            }
+        });
+    },
+
     //all questions have been answered/unanswered then results are shown
     finalScore: function () {
         $("#QUESTION").empty();
@@ -590,9 +588,8 @@ var triviaGame = {
             "<button class='btn btn2 btn-outline-light' id='reset'>Replay!</button>" +
             "<button class='btn btn2 btn-outline-light' id='resetBtn'>Restart</button>"
         );
-
+        triviaGame.displayLeaderboard();
         addJoin();
-        //addSignupLogin();
         saveQuiz(triviaGame.correctAnswers);
         // var joinDiv = $("#joinDiv");
         // $("#main").append(joinDiv);
