@@ -176,9 +176,8 @@ function displayGif() {
     var resultsObj = response.data;
 
     //create tds for taunt and gif
-    var rankDisplay = $("<td>").text(1); //score from firebase?
-    var userDisplay = $("<td>").text("username"); //username from inial user input
-    var scoreDisplay = $("<td>").text(25); //score from quiz
+    var userDisplay = $("<td>").text("user"); //username from inial user input
+    var scoreDisplay = $("<td>").text(triviaGame.correctAnswers); //score from quiz
     var tauntDisplay = $("<td>").text(
       $("#taunt-input")
         .val()
@@ -197,7 +196,6 @@ function displayGif() {
     gifDisplay.append(gifImg);
 
     //appends new row to table
-    $("table").append(rankDisplay);
     $("table").append(userDisplay);
     $("table").append(scoreDisplay);
     $("table").append(tauntDisplay);
@@ -207,7 +205,7 @@ function displayGif() {
 
 $(document).on("click", "#taunt-button", function () {
   event.preventDefault();
-  console.log("works");
+  console.log("gif works");
 
   displayGif();
 });
@@ -557,13 +555,12 @@ var triviaGame = {
   displayLeaderboard: function () {
     leaderDiv = $("<div class= jumbotron-fluid'></div>");
     $("#main").append(leaderDiv);
-    leaderDiv.append("<h1 class='text-white text-center'>Leaderboard</h1>");
+    leaderDiv.append("<h1 class='text-white text-center'>Quiz History</h1>");
     leaderDiv.append("<input id='taunt-input' class='form-control' type='text' placeholder='Throw some shade...' style='opacity: .5'>");
     leaderDiv.append("<button type='button' class='btn btn-outline-light m-3' id='taunt-button'>Taunt</button>");
     leaderDiv.append("<table class='table text-white'>");
     $("table").append("<thead></thead>");
     $("thead").append("<tr></tr>");
-    $("tr").append("<th scope='col'>Rank</th>");
     $("tr").append("<th scope='col'>Username</th>");
     $("tr").append("<th scope='col'>Score</th>");
     $("tr").append("<th scope='col'></th>");
